@@ -39,7 +39,7 @@ Route::group([
     'middleware' => 'api',
     'middleware' => 'adm',
     'prefix' => 'adm'
-    ], function () { 
+    ], function () {
         Route::get('/usuario','AdmController@index');
         Route::get('/usuario/{id}','AdmController@show');
         Route::post('/usuario/create','AdmController@store');
@@ -230,13 +230,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'solicitacaoSIADM'], function (
     Route::put('/up', 'SolicitacaoSIADMController@update');
     Route::delete('/delete', 'SolicitacaoSIADMController@delete');
 });
+
 // Grupo de rotas teste
 Route::group(['middleware' => 'api', 'prefix' => 'teste'], function () {
-    Route::post('/create', 'TesteController@create');
-    Route::get('/', 'TesteController@buscar');
-    Route::get('/list', 'TesteController@listar');
-    Route::put('/up', 'TesteController@update');
-    Route::delete('/delete', 'TesteController@delete');
+    Route::get('/', 'TesteController@index');
 });
 
 // Grupo de rotas TipoEvento
