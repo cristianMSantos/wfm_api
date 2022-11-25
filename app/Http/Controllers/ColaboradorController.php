@@ -9,27 +9,24 @@ use App\Http\Controllers\Controller;
 class ColaboradorController extends Controller
 {
 
-  
-    public function buscar(Request $request)
+
+    public function buscarGestor($matricula)
     {
-        
-        $cpf = $request->cpf;
-    
-        
+
         $call = new Colaborador();
-        $list = $call->buscarEmpregado($cpf);
+        $list = $call->buscarGestor($matricula);
        //dd($cpf);
         return json_encode($list);
-       
+
     }
 
-    public function listar(Request $request)
+    public function listar()
     {
         $call = new Colaborador();
         $list = $call->listarColaborador();
         return json_encode($list);
     }
-    
+
     public function update(Request $request)
     {
         $co_colaborador = $request->co_colaborador;
@@ -49,7 +46,7 @@ class ColaboradorController extends Controller
             $colaborador->DE_RG_EMISSOR = is_null($request->DE_RG_EMISSOR) ? $colaborador->DE_RG_EMISSOR : $request->DE_RG_EMISSOR;
             $colaborador->NO_EMAIL = is_null($request->NO_EMAIL) ? $colaborador->NO_EMAIL : $request->NO_EMAIL;
 			$colaborador->dt_nascimento = is_null($request->dt_nascimento) ? $colaborador->dt_nascimento : $request->dt_nascimento;
-			$colaborador->DT_CADASTRO = is_null($request->DT_CADASTRO) ? $colaborador->DT_CADASTRO : $request->DT_CADASTRO;			
+			$colaborador->DT_CADASTRO = is_null($request->DT_CADASTRO) ? $colaborador->DT_CADASTRO : $request->DT_CADASTRO;
             $colaborador->save();
 
             return response()->json([
@@ -58,31 +55,27 @@ class ColaboradorController extends Controller
         }else{
            return response()->json([
                "message" => "not found"
-           ], 404); 
-        } 
-    }  
-    public function create(Request $request)    
+           ], 404);
+        }
+    }
+    public function create(Request $request)
     {
 
         date_default_timezone_set('america/sao_paulo');
 
         $contrato = new Colaborador;
-		$contrato->mat_colaborador = $request->matCaixa;	
-		$contrato->co_cpf = $request->cpf;
-        $contrato->no_colaborador = $request->nomeCompleto;
-		$contrato->no_social = $request->nomeSocial;	
-		$contrato->ic_sexo = $request->sexo['value']; //rever
-		$contrato->dt_nascimento = $request->dtNasc;	
-		$contrato->DT_CADASTRO = date('Y-m-d H:i:s', time());
-		$contrato->nu_rg = $request->rg;
-        $contrato->org_expedidor = $request->orgExpedidor;
-        $contrato->co_cargo_funcao = $request->cargo['value']; //rever	
-        $contrato->dt_admissao = $request->dtAdm;
-        $contrato->co_contrato = $request->contrato['value']; //rever	
-        $contrato->co_situacao = $request->situacao['value']; //rever
-        foreach($request->ufExpedidor as $uf) {
-            $contrato->uf_expedidor = $uf;
-        }
+		$contrato->matricula = $request->matriculaP;
+		$contrato->login = $request->matCaixa;
+        $contrato->nome = $request->nomeCompleto;
+        $contrato->filial = $request->filial['value'];
+        $contrato->co_funcao = $request->funcao['value'];
+        $contrato->dtnascimento = $request->dtNasc;
+        $contrato->dtadmissao = $request->dtAdm;
+        $contrato->dtdemissao = $request->dtDem;
+        $contrato->id_situacao = $request->situacao['value'];
+        $contrato->jorn_ent = $request->jornEnt;
+        $contrato->jorn_sai = $request->jornSai;
+        $contrato->mat_gestor = $request->matGestor;
         $contrato->save();
 
         return response()->json([
@@ -108,5 +101,5 @@ class ColaboradorController extends Controller
         }
 
     }
-  
+
 }

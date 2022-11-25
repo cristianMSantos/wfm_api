@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Situacao extends Model
 {
     public $timestamps = false;
-    protected $table = 'gente.Situacao';
-    protected $primaryKey = 'co_situacao';
-    
+    protected $table = 'sc_bases.vw_situacao';
+    protected $primaryKey = 'id_situacao';
+
     public function listarSituacao(){
         return Situacao::get();
     }
-    public function buscarSituacao($co_situacao){
-        return Situacao::where('co_situacao','=', $co_situacao)->get();
+    public function buscarSituacao($id_situacao){
+        return Situacao::where('id_situacao','=', $id_situacao)->get();
     }
 }

@@ -91,10 +91,10 @@ return [
             'prefix_indexes' => true,
         ],
 
-        'sqlsrv2' => [
-            'driver' => 'sqlsrv',
-            'host' => env('DB_HOST_SECOND', 'RJ7399SR014'),
-            'port' => env('DB_PORT_SECOND', '1433'),
+        'pgsql2' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST_SECOND', '172.10.20.47'),
+            'port' => env('DB_PORT_SECOND', '5432'),
             'database' => env('DB_DATABASE_SECOND', 'forge'),
             'username' => env('DB_USERNAME_SECOND', 'forge'),
             'password' => env('DB_PASSWORD_SECOND', ''),
