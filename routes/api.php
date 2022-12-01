@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Rota para pegar o usuário do sistema
 Route::resource('/usuario', 'UsuarioController');
 
+Route::get('/', 'TesteController@index');
+
 Route::group([
     'prefix' => 'auth'
 ], function ($router) {

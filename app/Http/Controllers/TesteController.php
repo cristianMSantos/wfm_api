@@ -13,12 +13,7 @@ class TesteController extends Controller
 
     public function index()
     {
-
-        dd(get_current_user());
-
-        $user = new View_Colaborador;
-        $user = $user->getAuthUser();
-        return response()->json($user);
+        return response()->json('teste de conexão');
     }
 
 }
