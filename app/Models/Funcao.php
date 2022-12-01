@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Funcao extends Model
 {
     public $timestamps = false;
-    protected $table = 'sc_bases.vw_funcao';
+    protected $table = 'sc_bases.tb_funcao';
     protected $primaryKey = 'co_funcao';
+    protected $keyType = 'string';
 
     public function listarFuncao(){
         return Funcao::get();
