@@ -83,6 +83,15 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::delete('/delete', 'ColaboradorController@delete');
 });
 
+// Grupo de rotas Ocorrencias
+Route::group(['middleware' => 'api', 'prefix' => 'ocorrencia'], function () {
+    Route::post('/create', 'OcorrenciaController@create');
+    Route::get('/list', 'OcorrenciaController@listar');
+    Route::get('/{id}', 'OcorrenciaController@buscarGestor');
+    Route::put('/up', 'OcorrenciaController@update');
+    Route::delete('/delete', 'OcorrenciaController@delete');
+});
+
 // Grupo de rotas sisfin
 Route::group(['middleware' => 'api', 'prefix' => 'sisfin'], function () {
     Route::get('/{id}', 'SisfinController@search');
