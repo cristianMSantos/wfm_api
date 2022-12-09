@@ -22,10 +22,26 @@ class ColaboradorController extends Controller
 
     }
 
-    public function listar()
+    public function listAllGestores(Request $request)
     {
         $call = new Colaborador();
-        $list = $call->listarColaborador();
+        $list = $call->listAllGestores($request->filiais);
+       //dd($cpf);
+        return json_encode($list);
+
+    }
+
+    public function listAllMonitores(Request $request)
+    {
+        $call = new Colaborador();
+        $list = $call->listAllMonitores($request);
+        return json_encode($list);
+    }
+
+    public function listar(Request $request)
+    {
+        $call = new Colaborador();
+        $list = $call->listarColaborador($request);
         return json_encode($list);
     }
 
