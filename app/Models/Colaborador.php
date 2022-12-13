@@ -21,7 +21,7 @@ class Colaborador extends Model
       $monitores = [];
       $situacoes = [];
       $dtAdm = $request->filters ? $request->filters['dtAdmInterval'] : '';
-      $dtDem = $request->filters ? $request->filters['dtDem'] : '';
+      $dtDem = $request->filters ? $request->filters['dtDemInterval'] : '';
       $cpf = $request->filters ? $request->filters['cpf'] : '';
 
       if($request->filters){
@@ -84,13 +84,18 @@ class Colaborador extends Model
               $list->where('emp.cpf', $cpf);
           }
 
-          if($dtAdm){
+          if(count($dtAdm) == 2){
               $list->whereBetween('emp.dtadmissao', $dtAdm);
+          }else if($dtAdm){
+              $list->where('emp.dtadmissao', $dtAdm);
           }
 
-        //   if($dtDem){
-        //       $list->where('emp.dtdemissao', '<=', $dtDem);
-        //   }
+          if(count($dtDem) == 2){
+              $list->whereBetween('emp.dtdemissao', $dtDem);
+          }else if($dtDem){
+              $list->where('emp.dtdemissao', $dtDem);
+          }
+
         }
 
         $list = $list->get();
