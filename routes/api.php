@@ -77,7 +77,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'filial'], function () {
 // Grupo de rotas colaborador
 Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::post('/create', 'ColaboradorController@create');
-    Route::get('/list', 'ColaboradorController@listar');
+    Route::post('/list', 'ColaboradorController@listar');
+    Route::post('/listAllGestores', 'ColaboradorController@listAllGestores');
+    Route::post('/listAllMonitores', 'ColaboradorController@listAllMonitores');
     Route::get('/{id}', 'ColaboradorController@buscarGestor');
     Route::put('/up', 'ColaboradorController@update');
     Route::delete('/delete', 'ColaboradorController@delete');

@@ -15,6 +15,7 @@ class Funcao extends Model
     public function listarFuncao(){
         return Funcao::get();
     }
+
     public function buscarFuncao($co_funcao){
         return Funcao::where('co_funcao','=', $co_funcao)->get();
     }
