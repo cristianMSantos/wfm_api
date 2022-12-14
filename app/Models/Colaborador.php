@@ -23,6 +23,7 @@ class Colaborador extends Model
       $dtAdm = $request->filters ? $request->filters['dtAdmInterval'] : '';
       $dtDem = $request->filters ? $request->filters['dtDemInterval'] : '';
       $cpf = $request->filters ? $request->filters['cpf'] : '';
+      $matriculas = $request->filters ? $request->filters['matriculas'] : '';
 
       if($request->filters){
         if($request->filters['iniFilial']){
@@ -74,12 +75,19 @@ class Colaborador extends Model
           if($filiais){
               $list->whereIn('emp.filial', $filiais);
           }
+
           if($gestores){
               $list->whereIn('emp.mat_gestor', $gestores);
           }
+
           if($monitores){
               $list->whereIn('emp.mat_monitor', $monitores);
           }
+
+          if($matriculas){
+              $list->whereIn('emp.login', $matriculas);
+          }
+
           if($cpf){
               $list->where('emp.cpf', $cpf);
           }
