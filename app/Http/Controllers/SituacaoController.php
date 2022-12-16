@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class SituacaoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
     public function listar()
     {
         $call = new Situacao();

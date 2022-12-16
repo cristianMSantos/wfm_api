@@ -11,33 +11,37 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-   
-    protected $connection = 'sqlsrv';
-    protected $table = 'GENTE.BASETB001_TOKEN';
-    protected $primaryKey = 'CO_SISTEMA';
-   
+
+    public $timestamps = false;
+    protected $table = 'public.tb_usuario';
+    protected $primaryKey = 'co_usuario';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-  
+
     protected $fillable = [
-        
-      'CO_SISTEMA',
-      'NO_SISTEMA',
-      'NO_SENHA',
-      'IC_STATUS'
+      'co_usuario',
+      'matricula',
+      'senha',
+      'co_perfil',
+      'dt_criacao',
+      'mat_criacao',
+      'dt_alteracao',
+      'mat_alteracao',
+      'ic_ativo'
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-      
-        'NO_SENHA'
+
+        'senha'
     ];
 
     /**
@@ -49,10 +53,10 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];*/
 
-    
+
     public function getAuthPassword()
     {
-        return Hash::make($this->NO_SENHA) ;
+        return Hash::make($this->senha) ;
     }
 
     public function getJWTIdentifier()
@@ -70,5 +74,5 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    
+
 }

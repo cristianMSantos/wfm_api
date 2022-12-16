@@ -2,7 +2,7 @@
 /**
  * Controller responsavel pela autenticação.
  *
- * 
+ *
  */
 
 namespace App\Http\Controllers;
@@ -17,7 +17,7 @@ use function PHPUnit\Framework\isEmpty;
 class AuthController extends Controller
 {
 
-   
+
     /**
      * Create a new AuthController instance.
      *
@@ -40,19 +40,19 @@ class AuthController extends Controller
          * Compara as senhas
          * Gera o token
          *
-         * 
+         *
          */
 
-        $senha =  md5($request->input('senha'));
-       
-        if(is_null($request->input('senha')) || is_null($request->input('login'))){
-            return response()->json(['error' => 'Senha ou Login nao informados'], 404);    
+        $senha =  md5($request->input('loginPassword'));
+
+        if(is_null($request->input('loginPassword')) || is_null($request->input('loginMatricula'))){
+            return response()->json(['error' => 'Senha ou Login nao informados'], 404);
         }
-        
-        if(!$token = Auth::attempt(['NO_SISTEMA' => $request->input('login'),'password' => $senha])){
+
+        if(!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])){
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        
+
         return $this->respondWithToken($token);
     }
 
