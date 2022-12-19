@@ -74,5 +74,24 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function getUser(){
+        return User::from('public.tb_usuario as user')
+        ->select(
+            'user.co_usuario',
+            'user.matricula',
+            'user.senha',
+            'user.co_perfil',
+            'user.dt_criacao',
+            'user.mat_criacao',
+            'user.dt_alteracao',
+            'user.mat_alteracao',
+            'user.ic_ativo',
+            'emp.nome'
+        )
+        ->join('sc_bases.tb_empregados as emp', 'user.matricula', '=', 'emp.matricula')
+        ->where('user.matricula', $this->matricula)
+        ->first();
+    }
+
 
 }

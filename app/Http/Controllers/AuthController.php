@@ -63,7 +63,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        $user = auth('api')->user();
+        $user = auth('api')->user()->getUser();
         return response()->json($user);
     }
 
