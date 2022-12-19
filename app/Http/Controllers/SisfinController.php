@@ -8,6 +8,12 @@ use DB;
 
 class SisfinController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
     public function search($matricula){
 
         $user = DB::connection('pgsql2')->table('sisfin.tb_funcionario')

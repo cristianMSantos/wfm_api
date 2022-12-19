@@ -8,6 +8,12 @@ use App\Models\Filial ;
 
 class FilialController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
     public function listar()
     {
         $call = new Filial();
