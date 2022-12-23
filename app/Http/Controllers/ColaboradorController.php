@@ -16,12 +16,10 @@ class ColaboradorController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
-    public function buscarGestor($matricula)
+    public function buscarGestor(Request $request)
     {
-
         $call = new Colaborador();
-        $list = $call->buscarGestor($matricula);
-       //dd($cpf);
+        $list = $call->buscarGestor($request->matriculaCaixa);
         return json_encode($list);
 
     }

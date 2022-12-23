@@ -61,6 +61,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'situacao'], function () {
     Route::post('/create', 'SituacaoController@create');
     Route::get('/', 'SituacaoController@buscar');
     Route::get('/list', 'SituacaoController@listar');
+    Route::get('/listCP', 'SituacaoController@listarCP');
     Route::put('/up', 'SituacaoController@update');
     Route::delete('/delete', 'SituacaoController@delete');
 });
@@ -80,7 +81,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::post('/list', 'ColaboradorController@listar');
     Route::post('/listAllGestores', 'ColaboradorController@listAllGestores');
     Route::post('/listAllMonitores', 'ColaboradorController@listAllMonitores');
-    Route::get('/{id}', 'ColaboradorController@buscarGestor');
+    Route::post('/buscarGestor', 'ColaboradorController@buscarGestor');
     Route::put('/up', 'ColaboradorController@update');
     Route::delete('/delete', 'ColaboradorController@delete');
 });
@@ -89,7 +90,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
 Route::group(['middleware' => 'api', 'prefix' => 'ocorrencia'], function () {
     Route::post('/create', 'OcorrenciaController@create');
     Route::get('/list', 'OcorrenciaController@listar');
-    Route::get('/{id}', 'OcorrenciaController@buscarGestor');
+    //Route::get('/{id}', 'OcorrenciaController@buscarGestor');
     Route::put('/up', 'OcorrenciaController@update');
     Route::delete('/delete', 'OcorrenciaController@delete');
 });

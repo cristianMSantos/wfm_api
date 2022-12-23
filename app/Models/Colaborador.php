@@ -112,7 +112,16 @@ class Colaborador extends Model
     }
 
     public function buscarGestor($matricula){
-        return Colaborador::where('login','=', $matricula)->get();
+       // return Colaborador::where('login','=', $matricula)->get();
+
+       return Colaborador::from('sc_bases.tb_empregados as emp')
+       ->select('emp.login', 'emp.matricula', 'emp.nome', 'emp.mat_gestor', 'gestor.nome as nome_gestor'
+        ,'emp.cpf', 'emp.pis', 'emp.filial', 'emp.co_funcao', 'emp.dt_funcao', 'emp.dtnascimento', 'emp.dtadmissao', 'emp.dtdemissao', 'emp.id_situacao'
+        , 'emp.dt_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_monitor', 'emp.mat_alteracao', 'emp.dt_hist_alteracao', 'emp.dt_alteracao'
+       , DB::raw("CONCAT(emp.mat_gestor, ' - ', gestor.nome) as mn_gestor") )
+       ->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
+       ->where('emp.login','=', $matricula)->get();
+
     }
 
     public function listAllGestores($filiais){
