@@ -29,7 +29,6 @@ class OcorrenciaController extends Controller
         date_default_timezone_set('america/sao_paulo');
 
         $matriculaPlansul = $request->matPlansul[0];
-    var_dump( $request->dtInicio . ' ' . $request->horaInicio);
         $Ocorrencia = new Ocorrencia;
         $Ocorrencia->dh_inicio_ocorrencia = $request->dtInicio . ' ' . $request->horaInicio;
         $Ocorrencia->dh_fim_ocorrencia  = $request->dtFim . ' ' . $request->horaFim;
@@ -45,6 +44,25 @@ class OcorrenciaController extends Controller
         return response()->json([
             "massege" => "created successfully"
         ], 200);
+    }
+
+    public function delete(Request $request)
+    {
+
+        $id_ocorrencia = $request->ocorrencia[0];
+        if(Ocorrencia::where('id_ocorrencia', $id_ocorrencia)->exists()){
+            $delete = Ocorrencia::find($id_ocorrencia);
+            $delete->delete();
+
+            return response()->json([
+                "messege" =>"Ocorrencia deletada"
+            ], 202);
+        }else{
+            return response()->json([
+                "messege" =>"Ocorrencia nao encontrada"
+            ], 404);
+        }
+
     }
 
 }
