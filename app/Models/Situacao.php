@@ -17,4 +17,7 @@ class Situacao extends Model
     public function buscarSituacao($id_situacao){
         return Situacao::where('id_situacao','=', $id_situacao)->get();
     }
+    public function listarSituacaoCP(){
+        return Situacao::from('sc_bases.tb_situacao as oc')->whereNull('id_situacao_sisfin')->orderBy('de_situacao')->get();
+    }
 }

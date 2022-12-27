@@ -19,4 +19,12 @@ class SituacaoController extends Controller
         return json_encode($list);
     }
 
+    public function listarCP()
+    {
+        $call = new Situacao();
+        $list = $call->listarSituacaoCP();
+        return json_encode($list);
+    }
+
+
 }
