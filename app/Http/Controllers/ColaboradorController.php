@@ -53,17 +53,21 @@ class ColaboradorController extends Controller
     {
         date_default_timezone_set('america/sao_paulo');
 
-        if (Colaborador::where('matricula', $request->matriculaP)->exists()){
+        $inputs = array_filter($request->all(), function($v, $k){
+            return $k !== 'matriculaP' && $v !== null;
+        }, ARRAY_FILTER_USE_BOTH);
 
-            $colaborador = Colaborador::where('matricula', $request->matriculaP)->update([
-                'login' => $request->matCaixa,
-                'jorn_ent' => $request->jornEnt,
-                'jorn_sai' => $request->jornSai,
-                'mat_gestor' => $request->matGestor,
-                'mat_monitor' => $request->matMonitor,
-                'dt_hist_alteracao' => $request->histAlteracao,
-                'dt_alteracao' =>  date('Y-m-d H:i', time())
-            ]);
+        if (Colaborador::whereIn('matricula', $request->matriculaP)->exists()){
+            $colaborador = Colaborador::whereIn('matricula', $request->matriculaP)
+            ->update($inputs);
+            // ->update([
+            //     'jorn_ent' => $request->jornEnt,
+            //     'jorn_sai' => $request->jornSai,
+            //     'mat_gestor' => $request->matGestor,
+            //     'mat_monitor' => $request->matMonitor,
+            //     'dt_hist_alteracao' => $request->histAlteracao,
+            //     'dt_alteracao' =>  date('Y-m-d H:i', time())
+            // ]);
         }else{
             return response()->json([
                 "message" => "Colaborador not found"
