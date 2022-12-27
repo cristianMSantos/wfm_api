@@ -82,6 +82,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::post('/listAllGestores', 'ColaboradorController@listAllGestores');
     Route::post('/listAllMonitores', 'ColaboradorController@listAllMonitores');
     Route::post('/buscarGestor', 'ColaboradorController@buscarGestor');
+    Route::get('/{id}', 'ColaboradorController@buscar');
     Route::put('/up', 'ColaboradorController@update');
     Route::delete('/delete', 'ColaboradorController@delete');
 });

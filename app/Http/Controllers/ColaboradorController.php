@@ -16,6 +16,14 @@ class ColaboradorController extends Controller
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
+    public function buscar($id)
+    {
+        $call = new Colaborador();
+        $list = $call->buscar($id);
+        return json_encode($list);
+
+    }
+
     public function buscarGestor(Request $request)
     {
         $call = new Colaborador();

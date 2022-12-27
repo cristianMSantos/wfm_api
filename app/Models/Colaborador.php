@@ -111,8 +111,13 @@ class Colaborador extends Model
         return $list;
     }
 
+    public function buscar($matricula){
+       return Colaborador::where('login','=', $matricula)->get();
+
+    }
+
     public function buscarGestor($matricula){
-       // return Colaborador::where('login','=', $matricula)->get();
+    //    return Colaborador::where('login','=', $matricula)->get();
 
        return Colaborador::from('sc_bases.tb_empregados as emp')
        ->select('emp.login', 'emp.matricula', 'emp.nome', 'emp.mat_gestor', 'gestor.nome as nome_gestor'
