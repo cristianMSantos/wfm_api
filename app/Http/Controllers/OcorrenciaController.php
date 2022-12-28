@@ -75,14 +75,14 @@ class OcorrenciaController extends Controller
     public function delete(Request $request)
     {
 
-        $id_ocorrencia = $request->ocorrencia[0];
+        $id_ocorrencia = $request->ocorrencia;
         if(Ocorrencia::where('id_ocorrencia', $id_ocorrencia)->exists()){
             $delete = Ocorrencia::find($id_ocorrencia);
            // $delete->delete();
 
            $delete = Ocorrencia::where('id_ocorrencia', $id_ocorrencia)->update([
                 'ic_ativo' => 0,
-            // 'observacao' => $request->observacao,
+                'observacao' => $request->justificativa,
                 'mat_alteracao' => $request->matPlansulREg,
                 'dt_alteracao' =>  date('Y-m-d H:i', time()),
             ]);
