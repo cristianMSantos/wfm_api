@@ -116,6 +116,11 @@ class Colaborador extends Model
 
     }
 
+    public function buscarColab($matricula){
+      return Colaborador::select(DB::raw("CONCAT(matricula, ' - ', nome) as mat_nome"))
+      ->where('matricula','=', $matricula)->get();
+    }
+
     public function buscarGestor($matricula){
     //    return Colaborador::where('login','=', $matricula)->get();
 
