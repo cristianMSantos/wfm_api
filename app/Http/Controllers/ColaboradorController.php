@@ -27,7 +27,7 @@ class ColaboradorController extends Controller
     public function buscarColab(Request $request)
     {
         $call = new Colaborador();
-        $list = $call->buscarColab($request->matriculaCaixa);
+        $list = $call->buscarColab($request->matriculaPlansul);
         return json_encode($list);
 
     }
