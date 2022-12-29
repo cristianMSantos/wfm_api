@@ -63,6 +63,10 @@ class ColaboradorController extends Controller
             return $k !== 'matriculaP' && $v !== null;
         }, ARRAY_FILTER_USE_BOTH);
 
+        $inputsHist = array_filter($request->all(), function($v, $k){
+            return $k !== 'matriculaP' && $k !== 'dt_hist_alteracao' && $v !== null;
+        }, ARRAY_FILTER_USE_BOTH);
+
         if (Colaborador::whereIn('matricula', $request->matriculaP)->exists()){
             $colaborador = Colaborador::whereIn('matricula', $request->matriculaP)
             ->update($inputs);
@@ -80,15 +84,17 @@ class ColaboradorController extends Controller
             ], 404);
         }
 
-        if(ColaboradorHist::where('matricula', $request->matriculaP)->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), $request->histAlteracao)->exists()){
-            $colaboradorHist = ColaboradorHist::where('matricula', $request->matriculaP)->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), $request->histAlteracao)
-            ->update([
-                'login' => $request->matCaixa,
-                'jorn_ent' => $request->jornEnt,
-                'jorn_sai' => $request->jornSai,
-                'mat_gestor' => $request->matGestor,
-                'mat_monitor' => $request->matMonitor,
-            ]);
+        if(ColaboradorHist::whereIn('matricula', $request->matriculaP)->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), $request->dt_hist_alteracao)->exists()){
+            $colaboradorHist = ColaboradorHist::whereIn('matricula', $request->matriculaP)
+            ->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), '>=', $request->dt_hist_alteracao)
+            ->update($inputsHist);
+            // ->update([
+            //     'login' => $request->matCaixa,
+            //     'jorn_ent' => $request->jornEnt,
+            //     'jorn_sai' => $request->jornSai,
+            //     'mat_gestor' => $request->matGestor,
+            //     'mat_monitor' => $request->matMonitor,
+            // ]);
         }
 
         return response()->json([
