@@ -84,7 +84,7 @@ class ColaboradorController extends Controller
             ], 404);
         }
 
-        if(ColaboradorHist::whereIn('matricula', $request->matriculaP)->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), $request->dt_hist_alteracao)->exists()){
+        if(ColaboradorHist::whereIn('matricula', $request->matriculaP)->exists()){
             $colaboradorHist = ColaboradorHist::whereIn('matricula', $request->matriculaP)
             ->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), '>=', $request->dt_hist_alteracao)
             ->update($inputsHist);
