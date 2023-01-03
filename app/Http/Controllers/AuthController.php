@@ -53,6 +53,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        if($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])){
+            if($request->input('loginPassword') == 'plansul123'){
+                return response()->json(['error' => 'Reset Password'], 403);
+            }
+        }
+
         return $this->respondWithToken($token);
     }
 
