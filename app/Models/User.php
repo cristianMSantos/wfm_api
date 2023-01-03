@@ -93,5 +93,7 @@ class User extends Authenticatable implements JWTSubject
         ->first();
     }
 
-
+    public function resetPassword($matricula, $senha){
+        return $matricula;
+    }
 }
