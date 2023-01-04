@@ -84,8 +84,7 @@ class AuthController extends Controller
         $matricula = $request->input('loginMatricula');
 
         $user = new User();
-        $result = $user->resetPassword($matricula, $senha);
-        return response()->json($result);
+        return $user->resetPassword($matricula, $senha);
     }
 
     /**

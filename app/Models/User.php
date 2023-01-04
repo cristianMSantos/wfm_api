@@ -94,6 +94,22 @@ class User extends Authenticatable implements JWTSubject
     }
 
     public function resetPassword($matricula, $senha){
-        return $matricula;
+        date_default_timezone_set('america/sao_paulo');
+
+        if (User::where('matricula', $matricula)->exists()){
+            $user = User::where('matricula', $matricula)
+            ->update([
+                'senha' => $senha,
+                'dt_alteracao' =>  date('Y-m-d H:i', time())
+            ]);
+        }else{
+            return response()->json([
+                "message" => "User not found"
+            ], 404);
+        }
+
+        return response()->json([
+            "massege" => "update successfully"
+        ], 200);
     }
 }
