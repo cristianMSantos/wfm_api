@@ -25,7 +25,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'reset']]);
     }
     /**
      * Get a JWT via given credentials.
@@ -52,6 +52,12 @@ class AuthController extends Controller
         if(!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])){
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        // Verifica quando o usuário for incluir senha padrão para resetar a senha:
+        if($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])){
+            if($request->input('loginPassword') == 'plansul123'){
+                return response()->json(['error' => 'Reset Password'], 403);
+            }
+        }
 
         return $this->respondWithToken($token);
     }
@@ -65,6 +71,20 @@ class AuthController extends Controller
     {
         $user = auth('api')->user()->getUser();
         return response()->json($user);
+    }
+
+    /**
+     * Update User Login Password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reset(Request $request)
+    {
+        $senha =  md5($request->input('loginPassword'));
+        $matricula = $request->input('loginMatricula');
+
+        $user = new User();
+        return $user->resetPassword($matricula, $senha);
     }
 
     /**
