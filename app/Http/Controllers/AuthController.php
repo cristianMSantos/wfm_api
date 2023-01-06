@@ -45,16 +45,16 @@ class AuthController extends Controller
 
         $senha =  md5($request->input('loginPassword'));
 
-        if(is_null($request->input('loginPassword')) || is_null($request->input('loginMatricula'))){
+        if (is_null($request->input('loginPassword')) || is_null($request->input('loginMatricula'))) {
             return response()->json(['error' => 'Senha ou Login nao informados'], 404);
         }
 
-        if(!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])){
+        if (!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         // Verifica quando o usuário for incluir senha padrão para resetar a senha:
-        if($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])){
-            if($request->input('loginPassword') == 'plansul123'){
+        if ($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
+            if ($request->input('loginPassword') == 'plansul123') {
                 return response()->json(['error' => 'Reset Password'], 403);
             }
         }
