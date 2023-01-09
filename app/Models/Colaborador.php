@@ -59,9 +59,11 @@ class Colaborador extends Model
 
         $list = Colaborador::from('sc_bases.tb_empregados as emp')
         ->select('nome', 'matricula', 'f.de_funcao', 's.de_situacao', 'login', 'filial', 'cpf',
-        'emp.co_funcao', 'dtnascimento', 'dtadmissao', 'emp.id_situacao', 'jorn_ent', 'jorn_sai', 'mat_gestor', 'mat_monitor')
+        	'emp.co_funcao', 'dtnascimento', 'dtadmissao', 'dtdemissao',
+					'emp.id_situacao', 'jorn_ent', 'jorn_sai', 'mat_gestor', 'mat_monitor')
         ->join('sc_bases.tb_funcao as f', 'emp.co_funcao', 'f.co_funcao')
         ->join('sc_bases.tb_situacao as s', 'emp.id_situacao', 's.id_situacao_sisfin');
+ 				// ->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login');
 
         if($request->filters){
           if($situacoes){
