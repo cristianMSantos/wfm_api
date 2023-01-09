@@ -18,7 +18,7 @@ class Adm
         $user = new View_Colaborador;
         $user = $user->getAuthUser();
 
-        if ($user[0]['co_perfil'] == 1) {
+        if ($user[0]['co_perfil'] != 1) {
             return $next($request);
         } else {
             return response()->json([
