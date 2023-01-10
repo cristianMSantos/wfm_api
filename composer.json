@@ -30,15 +30,6 @@
         "platform-check": false,
 		"secure-http": false
     },
-	   "repositories": [
-        {
-            "packagist": false
-        },
-        {
-            "type": "composer",
-            "url": "http://ceatesa.ba.caixa:6789"
-        }
-    ],
     "extra": {
         "laravel": {
             "dont-discover": []
