@@ -63,7 +63,7 @@ class Colaborador extends Model
 					'emp.id_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_gestor', 'gestor.nome as nome_gestor', 'emp.mat_monitor')
         ->join('sc_bases.tb_funcao as f', 'emp.co_funcao', 'f.co_funcao')
         ->join('sc_bases.tb_situacao as s', 'emp.id_situacao', 's.id_situacao_sisfin')
- 				->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login');
+ 				->leftJoin('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login');
 
         if($request->filters){
           if($situacoes){
