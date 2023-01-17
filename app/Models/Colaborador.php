@@ -130,7 +130,7 @@ class Colaborador extends Model
         , 'emp.dt_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_monitor', 'emp.mat_alteracao', 'emp.dt_hist_alteracao', 'emp.dt_alteracao'
        , DB::raw("CONCAT(emp.mat_gestor, ' - ', gestor.nome) as mn_gestor") )
        ->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
-       ->where('emp.login','=', $matricula)->get();
+       ->where('emp.matricula','=', $matricula)->get();
 
     }
 

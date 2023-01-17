@@ -20,8 +20,8 @@ class Ocorrencia extends Model
         , 'mat_registro', 'dt_registro', 'mat_homologacao', 'dt_homologacao', 'ic_ativo', 'observacao', 'oc.mat_alteracao', 'oc.dt_alteracao'
         , DB::raw("to_char(dh_inicio_ocorrencia, 'dd/MM/yyyy') as dh_inicio_ocor")
         , DB::raw("to_char(dh_fim_ocorrencia, 'dd/MM/yyyy') as dh_fim_ocor")
-        , DB::raw("to_char(dt_registro, 'dd/MM/yyyy') as dt_reg")
-        , DB::raw("to_char(oc.dt_alteracao, 'dd/MM/yyyy') as dt_alt")
+        , DB::raw("to_char(dt_registro, 'dd/MM/yyyy HH24:MI:SS') as dt_reg")
+        , DB::raw("to_char(oc.dt_alteracao, 'dd/MM/yyyy HH24:MI:SS') as dt_alt")
         , DB::raw("to_char(dh_inicio_ocorrencia, 'dd/MM/yyyy HH24:MI:SS') as dh_inicio_comp")
         , DB::raw("to_char(dh_fim_ocorrencia, 'dd/MM/yyyy HH24:MI:SS') as dh_fim_comp")
         , DB::raw("CONCAT(login, ' - ', nome) as login_nome")
