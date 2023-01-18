@@ -27,7 +27,7 @@ class OcorrenciaController extends Controller
 
         date_default_timezone_set('america/sao_paulo');
 
-        $matriculaPlansul = $request->matPlansul[0];
+        $matriculaPlansul = $request->matPlansul;
         $Ocorrencia = new Ocorrencia;
         $Ocorrencia->dh_inicio_ocorrencia = $request->dtInicio . ' ' . $request->horaInicio;
         $Ocorrencia->dh_fim_ocorrencia  = $request->dtFim . ' ' . $request->horaFim;
