@@ -89,6 +89,15 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::delete('/delete', 'ColaboradorController@delete');
 });
 
+// Grupo de rotas Desligamento
+Route::group(['middleware' => 'api', 'prefix' => 'desligamento'], function () {
+    Route::get('/tpDeslig', 'DesligamentoController@tpDeslig');
+    Route::get('/locaisHom', 'DesligamentoController@locaisHom');
+    Route::post('/buscarColab', 'DesligamentoController@buscarColab');
+    Route::post('/create', 'DesligamentoController@create');
+    Route::put('/up', 'DesligamentoController@update');
+});
+
 // Grupo de rotas Ocorrencias
 Route::group(['middleware' => 'api', 'prefix' => 'ocorrencia'], function () {
     Route::post('/create', 'OcorrenciaController@create');
