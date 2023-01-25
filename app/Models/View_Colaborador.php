@@ -1,7 +1,7 @@
 <?php
 
 namespace App\models;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class View_Colaborador extends Model
@@ -19,7 +19,8 @@ class View_Colaborador extends Model
         //     $login = get_current_user();
         // }
 
-        $login = 113707;
+        //Pega a matricula do usuário logado.
+        $login = Auth::user()->matricula;
 
         $user = View_Colaborador::where('matricula', $login)->get();
 
