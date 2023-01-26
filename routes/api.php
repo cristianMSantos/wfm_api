@@ -41,8 +41,8 @@ Route::group([
     'middleware' => 'adm',
     'prefix' => 'adm'
     ], function () {
-        Route::get('/usuario','AdmController@index');
-        Route::get('/usuario/{id}','AdmController@show');
+        Route::get('/listAccess','AdmController@listAccess');
+        Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
         Route::post('/usuario/create','AdmController@store');
         Route::put('/usuario/update','AdmController@update');
         Route::delete('/usuario/delete','AdmController@destroy');

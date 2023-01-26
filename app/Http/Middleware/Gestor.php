@@ -10,7 +10,7 @@ class Gestor {
         $user = new View_Colaborador;
         $user = $user->getAuthUser();
         
-        if ($user[0]['co_perfil'] == 1 || $user[0]['co_perfil'] == 2) {
+        if ($user[0]['co_perfil'] == 1 || $user[0]['co_perfil'] == 2 || $user[0]['co_perfil'] == 4) {
             return $next($request);
         } else {
             return response()->json([
