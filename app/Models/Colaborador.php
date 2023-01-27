@@ -62,7 +62,7 @@ class Colaborador extends Model
         	'emp.co_funcao', 'emp.dtnascimento', 'emp.dtadmissao', 'emp.dtdemissao', 's.id_situacao_sisfin AS id_situacao',
 					'emp.id_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_gestor', 'gestor.nome as nome_gestor', 'emp.mat_monitor')
         ->join('sc_bases.tb_funcao as f', 'emp.co_funcao', 'f.co_funcao')
-        ->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
+        ->leftJoin('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
         ->leftJoin('sc_bases.tb_info_deslig as ids', function($join) {
             $join->on('emp.matricula', '=', 'ids.mat_empregado')
             ->where('ids.ic_ativo', '=', '1');
