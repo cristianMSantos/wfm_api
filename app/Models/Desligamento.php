@@ -24,6 +24,8 @@ class Desligamento extends Model
                 'dt_registro',
                 'ic_ativo',
                 'id_desligamento',
+                'ic_cracha',
+                'ic_headset',
                 'd.id_local_homologacao',
                 'lo.local_homologacao',
                 'd.id_tipo_desligamento',

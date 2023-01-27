@@ -47,6 +47,8 @@ class DesligamentoController extends Controller
             $desligamento->mat_empregado = $request->matriculaP[0];
             $desligamento->id_tipo_desligamento = $request->iniTpDeslg['value'];
             $desligamento->dt_desligamento = $request->dtDeslig;
+            $desligamento->ic_cracha = $request->iniCracha['value'];
+            $desligamento->ic_headset = $request->iniHeadSet['value'];
             $desligamento->dt_homologacao = $request->dtHom;
             $desligamento->id_local_homologacao = $request->iniLocalHom['value'];
             $desligamento->mat_registro = $request->matricula_alteracao;
@@ -68,6 +70,8 @@ class DesligamentoController extends Controller
                 ->update([
                     'dt_desligamento' => $request->dtDeslig,
                     'id_tipo_desligamento' => $request->iniTpDeslg['value'],
+                    'ic_cracha' => $request->iniCracha['value'],
+                    'ic_headset' => $request->iniHeadSet['value'],
                     'dt_homologacao' => $request->dtHom,
                     'id_local_homologacao' => $request->iniLocalHom['value'],
                     'justificativa' => $request->justificativa,
