@@ -65,49 +65,60 @@ class ColaboradorController extends Controller
 
     public function update(Request $request)
     {
+
+        // return $request->all();
+
         date_default_timezone_set('america/sao_paulo');
 
         $inputs = array_filter($request->all(), function($v, $k){
             return $k !== 'matriculaP' && $v !== null;
         }, ARRAY_FILTER_USE_BOTH);
 
+
+        $inputs['dt_alteracao'] = date('Y-m-d H:i', time());
+
         $inputsHist = array_filter($request->all(), function($v, $k){
             return $k !== 'matriculaP' && $k !== 'dt_hist_alteracao' && $v !== null;
         }, ARRAY_FILTER_USE_BOTH);
 
-        if (Colaborador::whereIn('matricula', $request->matriculaP)->exists()){
-            $colaborador = Colaborador::whereIn('matricula', $request->matriculaP)
-            ->update($inputs);
-            // ->update([
-            //     'jorn_ent' => $request->jornEnt,
-            //     'jorn_sai' => $request->jornSai,
-            //     'mat_gestor' => $request->matGestor,
-            //     'mat_monitor' => $request->matMonitor,
-            //     'dt_hist_alteracao' => $request->histAlteracao,
-            //     'dt_alteracao' =>  date('Y-m-d H:i', time())
-            // ]);
-        }else{
+        if($request->dt_hist_alteracao){
+            if (Colaborador::whereIn('matricula', $request->matriculaP)->exists()){
+                $colaborador = Colaborador::whereIn('matricula', $request->matriculaP)
+                ->update($inputs);
+                // ->update([
+                //     'jorn_ent' => $request->jornEnt,
+                //     'jorn_sai' => $request->jornSai,
+                //     'mat_gestor' => $request->matGestor,
+                //     'mat_monitor' => $request->matMonitor,
+                //     'dt_hist_alteracao' => $request->histAlteracao,
+                //     'dt_alteracao' =>  date('Y-m-d H:i', time())
+                // ]);
+            }else{
+                return response()->json([
+                    "message" => "Colaborador not found"
+                ], 404);
+            }
+    
+            if(ColaboradorHist::whereIn('matricula', $request->matriculaP)->exists()){
+                $colaboradorHist = ColaboradorHist::whereIn('matricula', $request->matriculaP)
+                ->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), '>=', $request->dt_hist_alteracao)
+                ->update($inputsHist);
+                // ->update([
+                //     'login' => $request->matCaixa,
+                //     'jorn_ent' => $request->jornEnt,
+                //     'jorn_sai' => $request->jornSai,
+                //     'mat_gestor' => $request->matGestor,
+                //     'mat_monitor' => $request->matMonitor,
+                // ]);
+            }
+    
             return response()->json([
-                "message" => "Colaborador not found"
-            ], 404);
+                "massege" => "update successfully"
+            ], 200);
         }
 
-        if(ColaboradorHist::whereIn('matricula', $request->matriculaP)->exists()){
-            $colaboradorHist = ColaboradorHist::whereIn('matricula', $request->matriculaP)
-            ->where(DB::raw("to_char(dt_historico, 'YYYY-MM-DD')"), '>=', $request->dt_hist_alteracao)
-            ->update($inputsHist);
-            // ->update([
-            //     'login' => $request->matCaixa,
-            //     'jorn_ent' => $request->jornEnt,
-            //     'jorn_sai' => $request->jornSai,
-            //     'mat_gestor' => $request->matGestor,
-            //     'mat_monitor' => $request->matMonitor,
-            // ]);
-        }
+        return;
 
-        return response()->json([
-            "massege" => "update successfully"
-        ], 200);
     }
     public function create(Request $request)
     {
