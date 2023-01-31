@@ -9,12 +9,18 @@ use DB;
 
 class AdmController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function listAccess()
     {
         $acessos = new Acessos();
         $list = $acessos->listarAcessos();
@@ -44,35 +50,16 @@ class AdmController extends Controller
         $user = new View_Colaborador;
         $user = $user->getAuthUser();
 
-        $login = $user[0]->mat_colaborador;
-        // dd($request);
-        foreach ($request->usersTableList as $key => $users) {
-            if($request->perfilSelected == 3) {
-                $newAcessos = new Acessos();
-                $newAcessos->co_contrato = $request->contratoSelected;
-                $newAcessos->mat_colaborador = strtoupper($users['matricula']);                                
-                $newAcessos->co_perfil = $request->perfilSelected;
-                $newAcessos->dt_cadastro = date('Y-m-d H:i', time());
-                $newAcessos->dt_criado_por = $login;
-                $newAcessos->dt_atualizacao = date('Y-m-d H:i', time());
-                $newAcessos->save();
-            }else{                                                           
-                foreach($request->contratoSelected as $contrato) {
-                    $newAcessos = new Acessos(); 
-                    $newAcessos->mat_colaborador = strtoupper($users['matricula']);                                
-                    $newAcessos->co_perfil = $request->perfilSelected;
-                    $newAcessos->co_contrato = $contrato;
-                    $newAcessos->dt_cadastro = date('Y-m-d H:i', time());
-                    $newAcessos->dt_criado_por = $login;
-                    $newAcessos->dt_atualizacao = date('Y-m-d H:i', time());
-                    $newAcessos->save();
-                }
-            }
-        
-            // $newAcessos->dt_cadastro = date('Y-m-d H:i:s', time());
-            // $newAcessos->dt_criado_por = $login;
-            // $newAcessos->dt_atualizacao = date('Y-m-d H:i:s', time());
-            // $newAcessos->save();
+        $login = $user[0]->matricula;
+        foreach ($request->usersTableList as $users) {
+            $newAcessos = new Acessos();
+            $newAcessos->matricula = $users['matricula'];
+            $newAcessos->senha = '1ae765da44b163c8d6cb8051bc35192b'; // senha padrão plansul123 criptografada.                                
+            $newAcessos->co_perfil = $request->perfilSelected;
+            $newAcessos->dt_criacao = date('Y-m-d H:i', time());
+            $newAcessos->mat_criacao = $login;
+            $newAcessos->ic_ativo = 1;
+            $newAcessos->save();
         }
 
         return response()->json([
@@ -90,11 +77,14 @@ class AdmController extends Controller
     {
         $matriculas = preg_split("/[\s,;]+/", $matriculas, -1, PREG_SPLIT_NO_EMPTY);
 
-        $colaboradores = View_Colaborador::from('gente.vw_colaborador as vw')
-            ->select('vw.mat_colaborador', 'no_colaborador', 'co.no_contrato', 'no_empresa', DB::raw("(CASE WHEN ace.co_acesso IS NOT NULL THEN 1 ELSE 0 END) AS CADASTRADO"))
-            ->join('gente.Contrato as co', 'co.co_contrato', '=', 'vw.co_contrato')
-            ->leftJoin('gente.Acessos as ace', 'vw.mat_colaborador', '=', 'ace.mat_colaborador')
-            ->whereIn('vw.mat_colaborador', $matriculas)
+        $colaboradores = View_Colaborador::from('sc_bases.vw_funcionario as vwf') // vwf = vw funcionário.
+            ->select(
+                'vwf.matricula',
+                'vwf.nome',
+                DB::raw("(CASE WHEN usuario.co_usuario IS NOT NULL THEN 1 ELSE 0 END) AS CADASTRADO")
+            ) // CADASTRADO está em Usuario.vue
+            ->leftJoin('public.tb_usuario as usuario', 'vwf.matricula', '=', 'usuario.matricula')
+            ->whereIn('vwf.matricula', $matriculas)
             ->get();
 
         return json_encode($colaboradores);
@@ -120,13 +110,29 @@ class AdmController extends Controller
      */
     public function update(Request $request)
     {
-        date_default_timezone_set('america/sao_paulo');
-        $acessos = new Acessos();
-        $acessos = $acessos->where('mat_colaborador', $request->usersTableList[0]['matricula'])->delete();
-        
-        self::store($request);
-            
-     }
+        date_default_timezone_set('america/sao_paulo'); //Ajusta a hora do dt_alteracao.
+        $user = new View_Colaborador;
+        $user = $user->getAuthUser(); //Trás a matrícula do usuário local; 
+        $login = $user[0]->matricula;
+
+        $co_usuario = $request->usersTableList[0]['co_usuario'];
+        if (Acessos::where('co_usuario', $co_usuario)->exists()) {
+            $userAcesso = Acessos::find($co_usuario); 
+
+            $userAcesso->co_perfil = $request->perfilSelected;
+            $userAcesso->dt_alteracao = date('Y-m-d H:i', time());
+            $userAcesso->mat_alteracao = $login;
+            $userAcesso->save();
+    
+            return response()->json([
+                "massege" => "updated successfully"
+            ], 200);
+        } else {
+            return response()->json([
+                "massege" => "Internal Server Error"
+            ], 500);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -137,8 +143,8 @@ class AdmController extends Controller
     public function destroy(Request $request)
     {
         $remove = new Acessos();
-        $remove = $remove->whereIn('mat_colaborador', $request->acesso)->delete();
-        
+        $remove = $remove->whereIn('matricula', $request->acesso)->delete();
+
         return $remove;
     }
 }

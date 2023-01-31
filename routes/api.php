@@ -41,8 +41,8 @@ Route::group([
     'middleware' => 'adm',
     'prefix' => 'adm'
     ], function () {
-        Route::get('/usuario','AdmController@index');
-        Route::get('/usuario/{id}','AdmController@show');
+        Route::get('/listAccess','AdmController@listAccess');
+        Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
         Route::post('/usuario/create','AdmController@store');
         Route::put('/usuario/update','AdmController@update');
         Route::delete('/usuario/delete','AdmController@destroy');
@@ -91,6 +91,15 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::post('/listAllCoord', 'ColaboradorController@listAllCoord');
     Route::post('/listAllSuperv', 'ColaboradorController@listAllSuperv');
 
+});
+
+// Grupo de rotas Desligamento
+Route::group(['middleware' => 'api', 'prefix' => 'desligamento'], function () {
+    Route::get('/tpDeslig', 'DesligamentoController@tpDeslig');
+    Route::get('/locaisHom', 'DesligamentoController@locaisHom');
+    Route::post('/buscarColab', 'DesligamentoController@buscarColab');
+    Route::post('/create', 'DesligamentoController@create');
+    Route::put('/up', 'DesligamentoController@update');
 });
 
 // Grupo de rotas Ocorrencias

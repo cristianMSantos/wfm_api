@@ -59,18 +59,28 @@ class Colaborador extends Model
 
         $list = Colaborador::from('sc_bases.tb_empregados as emp')
         ->select('emp.nome', 'emp.matricula', 'f.de_funcao', 's.de_situacao', 'emp.login', 'emp.filial', 'emp.cpf',
-        	'emp.co_funcao', 'emp.dtnascimento', 'emp.dtadmissao', 'emp.dtdemissao',
+        	'emp.co_funcao', 'emp.dtnascimento', 'emp.dtadmissao', 'emp.dtdemissao', 's.id_situacao_sisfin AS id_situacao',
 					'emp.id_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_gestor', 'gestor.nome as nome_gestor', 'emp.mat_monitor')
         ->join('sc_bases.tb_funcao as f', 'emp.co_funcao', 'f.co_funcao')
-        ->join('sc_bases.tb_situacao as s', 'emp.id_situacao', 's.id_situacao_sisfin')
- 				->leftJoin('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login');
+        ->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
+        ->leftJoin('sc_bases.tb_info_deslig as ids', function($join) {
+            $join->on('emp.matricula', '=', 'ids.mat_empregado')
+            ->where('ids.ic_ativo', '=', '1');
+        })
+        ->join('sc_bases.tb_situacao as s', function($join) {
+            $join->on(DB::raw("
+              (CASE WHEN emp.id_situacao <> 7 and ids.id_desligamento is not null 
+                THEN '9999'::smallint 
+                ELSE emp.id_situacao 
+              END)"), '=', 's.id_situacao_sisfin');
+        });
 
         if($request->filters){
           if($situacoes){
-              $list->whereIn('emp.id_situacao', $situacoes);
+              $list->whereIn('s.id_situacao_sisfin', $situacoes);
           }
         }else{
-          $list->where('emp.id_situacao', '1');
+          $list->where('s.id_situacao_sisfin', '1');
         }
 
         if($request->filters){
@@ -132,7 +142,7 @@ class Colaborador extends Model
         , 'emp.dt_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_monitor', 'emp.mat_alteracao', 'emp.dt_hist_alteracao', 'emp.dt_alteracao'
        , DB::raw("CONCAT(emp.mat_gestor, ' - ', gestor.nome) as mn_gestor") )
        ->join('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
-       ->where('emp.matricula','=', $matricula)->get();
+       ->where('emp.login','=', $matricula)->get();
 
     }
 

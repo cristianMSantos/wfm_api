@@ -74,7 +74,8 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function getUser(){
+    public function getUser()
+    {
         return User::from('public.tb_usuario as user')
         ->select(
             'user.co_usuario',
@@ -93,7 +94,8 @@ class User extends Authenticatable implements JWTSubject
         ->first();
     }
 
-    public function resetPassword($matricula, $senha){
+    public function resetPassword($matricula, $senha)
+    {
         date_default_timezone_set('america/sao_paulo');
 
         if (User::where('matricula', $matricula)->exists()

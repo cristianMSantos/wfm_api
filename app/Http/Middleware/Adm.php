@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Middleware;
-use App\Models\View_Colaborador;
 use Closure;
 
 class Adm
@@ -15,15 +14,18 @@ class Adm
      */
     public function handle($request, Closure $next)
     {
-        $user = new View_Colaborador;
-        $user = $user->getAuthUser();
 
-        if ($user[0]['co_perfil'] == 1) {
-            return $next($request);
-        } else {
-            return response()->json([
-                "error" => "Unauthorized"
-            ], 401);
+        $login = json_encode(auth('api')->user()->getUser()); //Retorna um objeto com alguns arrays.
+        $login = json_decode($login);
+
+        if (isset($login->matricula)) {
+            if ($login->matricula && $login->co_perfil == 1 || $login->co_perfil == 2 || $login->co_perfil == 4) {
+                return $next($request);
+            } else {
+                return response()->json([
+                    "error" => "Unauthorized"
+                ], 401);
+            }
         }
     }
 }
