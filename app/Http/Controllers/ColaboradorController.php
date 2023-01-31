@@ -56,6 +56,20 @@ class ColaboradorController extends Controller
         return json_encode($list);
     }
 
+    public function listAllSuperv(Request $request)
+    {
+        $call = new Colaborador();
+        $list = $call->listAllSuperv($request);
+        return json_encode($list);
+    }
+
+    public function listAllCoord(Request $request)
+    {
+        $call = new Colaborador();
+        $list = $call->listAllCoord($request->filiais);
+        return json_encode($list);
+    } //listAllCoord //listAllSuperv 
+
     public function listar(Request $request)
     {
         $call = new Colaborador();

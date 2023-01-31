@@ -87,6 +87,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::get('/{id}', 'ColaboradorController@buscar');
     Route::put('/up', 'ColaboradorController@update');
     Route::delete('/delete', 'ColaboradorController@delete');
+
+    Route::post('/listAllCoord', 'ColaboradorController@listAllCoord');
+    Route::post('/listAllSuperv', 'ColaboradorController@listAllSuperv');
+
 });
 
 // Grupo de rotas Ocorrencias
@@ -96,6 +100,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'ocorrencia'], function () {
     //Route::get('/{id}', 'OcorrenciaController@buscarGestor');
     Route::put('/up', 'OcorrenciaController@update');
     Route::delete('/delete', 'OcorrenciaController@delete');
+    Route::any('/listFiltro', 'OcorrenciaController@listarFiltros');
 });
 
 // Grupo de rotas sisfin
