@@ -22,6 +22,13 @@ class OcorrenciaController extends Controller
         return json_encode($list);
     }
 
+    public function listarFiltros(Request $request)
+    {
+        $call = new Ocorrencia();
+        $list = $call->listarOcorrenciaFiltro($request);
+        return json_encode($list);
+    }
+
     public function create(Request $request)
     {
 

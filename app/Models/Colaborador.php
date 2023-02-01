@@ -211,5 +211,73 @@ class Colaborador extends Model
 
         return $list;
     }
+
+    public function listAllCoord($filiais){
+
+      $contratos = [];
+      if($filiais){
+          foreach ($filiais as $key => $filial) {
+            array_push($contratos, $filial['value']);
+          }
+      }
+
+      $list =  Colaborador::from('sc_bases.tb_empregados as emp')
+      ->select()
+      ->leftJoin('sc_bases.tb_funcao as f', 'emp.co_funcao', '=', 'f.co_funcao')
+      ->whereIn('f.co_funcao', function($query){
+          $query->select('co_funcao')
+          ->from('sc_bases.tb_funcao')
+          ->where('de_funcao', 'like', "%COORD%")
+          ->Orwhere('de_funcao', 'like', "%GERENTE%");
+      })
+      ->where('emp.id_situacao', '1');
+
+      if($contratos){
+        $list->whereIn('emp.filial', $contratos);
+      }
+
+
+      $list = $list->orderBy('emp.nome')->get();
+
+      return $list;
+  }
+
+  public function listAllSuperv($request){
+    $superior = [];
+      if($request->gestores){
+          foreach ($request->gestores as $key => $gestor) {
+            array_push($superior, $gestor['value']);
+          }
+      }
+
+    $contrato = [];
+      if($request->filiais){
+          foreach ($request->filiais as $key => $filial) {
+            array_push($contrato, $filial['value']);
+          }
+      }
+
+    $list = Colaborador::from('sc_bases.tb_empregados as emp')
+      ->select('emp.mat_gestor as login', 'emp2.nome', 'f.de_funcao')
+      ->join('sc_bases.tb_situacao as s', 'emp.id_situacao', '=', 's.id_situacao_sisfin')
+      ->join('sc_bases.tb_empregados as emp2', 'emp2.login', '=', 'emp.mat_gestor')
+      ->join('sc_bases.tb_funcao as f', 'emp2.co_funcao', '=', 'f.co_funcao')
+    //  ->where('f.co_funcao', '000000232')
+      ->where('emp.id_situacao', '1');
+
+      if($superior){
+        $list->whereIn('emp2.mat_gestor', $superior);
+      }
+
+      if($contrato){
+        $list->whereIn('emp.filial', $contrato);
+      }
+
+      $list = $list->orderBy('emp2.nome');
+      $list =  $list->distinct()->get();
+
+      return $list;
+  }
+
 }
 

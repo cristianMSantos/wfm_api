@@ -41,8 +41,8 @@ Route::group([
     'middleware' => 'adm',
     'prefix' => 'adm'
     ], function () {
-        Route::get('/usuario','AdmController@index');
-        Route::get('/usuario/{id}','AdmController@show');
+        Route::get('/listAccess','AdmController@listAccess');
+        Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
         Route::post('/usuario/create','AdmController@store');
         Route::put('/usuario/update','AdmController@update');
         Route::delete('/usuario/delete','AdmController@destroy');
@@ -87,6 +87,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'colaborador'], function () {
     Route::get('/{id}', 'ColaboradorController@buscar');
     Route::put('/up', 'ColaboradorController@update');
     Route::delete('/delete', 'ColaboradorController@delete');
+
+    Route::post('/listAllCoord', 'ColaboradorController@listAllCoord');
+    Route::post('/listAllSuperv', 'ColaboradorController@listAllSuperv');
+
 });
 
 // Grupo de rotas Desligamento
@@ -105,6 +109,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'ocorrencia'], function () {
     //Route::get('/{id}', 'OcorrenciaController@buscarGestor');
     Route::put('/up', 'OcorrenciaController@update');
     Route::delete('/delete', 'OcorrenciaController@delete');
+    Route::any('/listFiltro', 'OcorrenciaController@listarFiltros');
 });
 
 // Grupo de rotas sisfin
