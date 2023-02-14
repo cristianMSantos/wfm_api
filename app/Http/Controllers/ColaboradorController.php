@@ -95,6 +95,8 @@ class ColaboradorController extends Controller
             return $k !== 'matriculaP' && $k !== 'dt_hist_alteracao' && $v !== null;
         }, ARRAY_FILTER_USE_BOTH);
 
+        $inputsHist['dt_alteracao'] = date('Y-m-d H:i', time());
+
         if($request->dt_hist_alteracao){
             if (Colaborador::whereIn('matricula', $request->matriculaP)->exists()){
                 $colaborador = Colaborador::whereIn('matricula', $request->matriculaP)

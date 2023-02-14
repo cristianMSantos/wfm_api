@@ -23,7 +23,14 @@ class Colaborador extends Model
       $dtAdm = $request->filters ? $request->filters['dtAdmInterval'] : '';
       $dtDem = $request->filters ? $request->filters['dtDemInterval'] : '';
       $cpf = $request->filters ? $request->filters['cpf'] : '';
-      $matriculas = $request->filters ? $request->filters['matriculas'] : '';
+      $matriculasC = $request->filters ? array_filter($request->filters['matriculas'], function($v, $k){
+        return ctype_alpha($v[0]);
+    }, ARRAY_FILTER_USE_BOTH) : '';
+      $matriculasP = $request->filters ? array_filter($request->filters['matriculas'], function($v, $k){
+        return ctype_digit($v[0]);
+    }, ARRAY_FILTER_USE_BOTH) : '';
+
+      // var_dump($matriculasP);
 
       if($request->filters){
         if($request->filters['iniFilial']){
@@ -96,8 +103,8 @@ class Colaborador extends Model
               $list->whereIn('emp.mat_monitor', $monitores);
           }
 
-          if($matriculas){
-              $list->whereIn('emp.login', $matriculas);
+          if($request->filters['matriculas']){
+              $list->whereIn('emp.login', $matriculasC)->orWhereIn('emp.matricula', $matriculasP);
           }
 
           if($cpf){
