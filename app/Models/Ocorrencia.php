@@ -104,9 +104,18 @@ class Ocorrencia extends Model
             $list->whereIn('oc.id_tipo_ocorrencia', $ocorrencias);
         }
         if(count($dtAdm) == 2){
-            $list->whereBetween('oc.dh_inicio_ocorrencia', $dtAdm);
+            $dtAdmformat1 = date('Y-m-d 00:00:00', strtotime($dtAdm[0]));
+            $dtAdmformat2 = date('Y-m-d 23:59:59', strtotime($dtAdm[1]));
+
+            $list->whereBetween('oc.dh_inicio_ocorrencia', [$dtAdmformat1, $dtAdmformat2]);
+
+            //$list->whereBetween('oc.dh_inicio_ocorrencia', $dtAdm);
         }else if($dtAdm){
-            $list->where('oc.dh_inicio_ocorrencia', $dtAdm);
+            $dtAdmformat1 = date('Y-m-d 00:00:00', strtotime($dtAdm[0]));
+            $dtAdmformat2 = date('Y-m-d 23:59:59', strtotime($dtAdm[0]));
+          //  dd($dtAdmformat);
+            $list->whereBetween('oc.dh_inicio_ocorrencia', [$dtAdmformat1, $dtAdmformat2]);
+          //  $list->where('oc.dh_inicio_ocorrencia', $dtAdmformat);
         }
         if($filiais){
             $list->whereIn('emp.filial', $filiais);
