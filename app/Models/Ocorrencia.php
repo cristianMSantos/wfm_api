@@ -20,18 +20,19 @@ class Ocorrencia extends Model
         $dataPassada = date('Y-m-d H:i', time() - 15);
 
         return Colaborador::from('sc_bases.tb_ocorrencias as oc')
-        ->select('id_ocorrencia', 'dh_inicio_ocorrencia', 'dh_fim_ocorrencia', 'mat_empregado', 'nome', 'login', 'id_tipo_ocorrencia', 'cid', 'de_ocorrencia'
-        , 'mat_registro', 'dt_registro', 'mat_homologacao', 'dt_homologacao', 'ic_ativo', 'observacao', 'oc.mat_alteracao', 'oc.dt_alteracao'
+        ->select('id_ocorrencia', 'dh_inicio_ocorrencia', 'dh_fim_ocorrencia', 'mat_empregado', 'emp.nome', 'emp.login', 'id_tipo_ocorrencia', 'cid', 'de_ocorrencia'
+        , 'mat_registro', 'dt_registro', 'mat_homologacao', 'dt_homologacao', 'ic_ativo', 'observacao', 'oc.mat_alteracao', 'oc.dt_alteracao', 'emp2.nome as nome_gestor'
         , DB::raw("to_char(dh_inicio_ocorrencia, 'dd/MM/yyyy') as dh_inicio_ocor")
         , DB::raw("to_char(dh_fim_ocorrencia, 'dd/MM/yyyy') as dh_fim_ocor")
         , DB::raw("to_char(dt_registro, 'dd/MM/yyyy HH24:MI:SS') as dt_reg")
         , DB::raw("to_char(oc.dt_alteracao, 'dd/MM/yyyy HH24:MI:SS') as dt_alt")
         , DB::raw("to_char(dh_inicio_ocorrencia, 'dd/MM/yyyy HH24:MI:SS') as dh_inicio_comp")
         , DB::raw("to_char(dh_fim_ocorrencia, 'dd/MM/yyyy HH24:MI:SS') as dh_fim_comp")
-        , DB::raw("CONCAT(login, ' - ', nome) as login_nome")
+        , DB::raw("CONCAT(emp.login, ' - ', emp.nome) as login_nome")
         , DB::raw("to_char(dh_inicio_ocorrencia, 'HH24:MI:SS') as hr_inicio_ocor")
         , DB::raw("to_char(dh_fim_ocorrencia, 'HH24:MI:SS') as hr_fim_ocor") )
         ->join('sc_bases.tb_empregados as emp', 'oc.mat_empregado', 'emp.matricula')
+        ->join('sc_bases.tb_empregados as emp2', 'emp2.login', 'emp.mat_gestor')
        // ->whereBetween('oc.dh_inicio_ocorrencia', [$dataPassada, $dtHoje])
         ->where('oc.dh_inicio_ocorrencia', '>=', $dataPassada)
         ->where('oc.ic_ativo', '=', '1')
