@@ -45,6 +45,7 @@ Route::group([
         Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
         Route::post('/usuario/create','AdmController@store');
         Route::put('/usuario/update','AdmController@update');
+        Route::put('/usuario/updatePassword','AdmController@updatePassword');
         Route::delete('/usuario/delete','AdmController@destroy');
 });
 
