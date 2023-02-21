@@ -81,6 +81,7 @@ class AdmController extends Controller
             ->select(
                 'vwf.matricula',
                 'vwf.nome',
+                'vwf.mat_gestor',
                 DB::raw("(CASE WHEN usuario.co_usuario IS NOT NULL THEN 1 ELSE 0 END) AS CADASTRADO")
             ) // CADASTRADO está em Usuario.vue
             ->leftJoin('public.tb_usuario as usuario', 'vwf.matricula', '=', 'usuario.matricula')
@@ -132,6 +133,37 @@ class AdmController extends Controller
                 "massege" => "Internal Server Error"
             ], 500);
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePassword(Request $request)
+    {
+        date_default_timezone_set('america/sao_paulo');
+
+        $user = new View_Colaborador;
+        $user = $user->getAuthUser();
+        $login = $user[0]->matricula;
+
+        //rows contém apenas alguns dados do usuário.
+        foreach ($request->rows as $users) {
+            $resetPassword = Acessos::where('matricula', $users['matricula'])->first(); 
+            if ($resetPassword !== null) {
+                $resetPassword->senha = '1ae765da44b163c8d6cb8051bc35192b'; // senha padrão plansul123 criptografada.                                
+                $resetPassword->dt_alteracao = date('Y-m-d H:i', time());
+                $resetPassword->mat_alteracao = $login;
+                $resetPassword->save();
+            }
+        }
+
+        return response()->json([
+            "message" => "updated successfully"
+        ], 200);
     }
 
     /**
