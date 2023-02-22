@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\View_Colaborador;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -85,6 +86,24 @@ class AuthController extends Controller
 
         $user = new User();
         return $user->resetPassword($matricula, $senha);
+    }
+
+    /**
+     * Update User Login Password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function confirmPassword(Request $request)
+    {
+        $user = new User();
+        
+        $getMatricula = new View_Colaborador;
+        $getMatricula = $getMatricula->getAuthUser();
+
+        $matricula = $getMatricula[0]->matricula;
+        $senha =  md5($request->input('loginPassword'));
+        return $user->comparePassword($matricula, $senha);
+        //return json_encode($user);
     }
 
     /**

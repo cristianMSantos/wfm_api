@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\models\View_Colaborador;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -115,5 +116,17 @@ class User extends Authenticatable implements JWTSubject
         return response()->json([
             "massege" => "update successfully"
         ], 200);
+    }
+
+    public function comparePassword($matricula, $senha)
+    {
+        $getLoginSenha = User::select('senha')
+                             ->where('matricula', $matricula)
+                             ->first();
+        if ($senha == $getLoginSenha["senha"]) {
+            return 'correct';
+        } else {
+            return 'incorrect';
+        }
     }
 }
