@@ -179,7 +179,7 @@ class Colaborador extends Model
           $list->whereIn('emp.filial', $contratos);
         }
 
-        $list = $list->get();
+        $list = $list->orderBy('nome')->get();
 
         return $list;
     }
