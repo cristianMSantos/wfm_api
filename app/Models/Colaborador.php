@@ -171,9 +171,9 @@ class Colaborador extends Model
             ->from('sc_bases.tb_funcao')
             ->where('de_funcao', 'like', "%COORD%")
             ->Orwhere('de_funcao', 'like', "%SUPERV%")
-            ->Orwhere('de_funcao', 'like', "%GERENTE%");
+            ->Orwhere('de_funcao', 'like', "%CORRD%");
         })
-        ->where('emp.id_situacao', '1');
+        ->whereIn('emp.id_situacao', ['1','2']);
 
         if($contratos){
           $list->whereIn('emp.filial', $contratos);
