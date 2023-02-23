@@ -54,6 +54,7 @@ class DesligamentoController extends Controller
             $desligamento->mat_registro = $request->matricula_alteracao;
             $desligamento->dt_registro = date('Y-m-d H:i', time());
             $desligamento->justificativa = $request->justificativa;
+            $desligamento->ic_certificado_digital = $request->iniCertDigital['value'];
             $desligamento->ic_ativo = 1;
             $desligamento->save();
     
@@ -76,6 +77,7 @@ class DesligamentoController extends Controller
                     'id_local_homologacao' => $request->iniLocalHom['value'],
                     'justificativa' => $request->justificativa,
                     'mat_alteracao' => $request->matricula_alteracao,
+                    'ic_certificado_digital' => $request->iniCertDigital['value'],
                     'dt_alteracao' => date('Y-m-d H:i', time())
                 ]);
 

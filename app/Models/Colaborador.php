@@ -68,7 +68,7 @@ class Colaborador extends Model
         ->select('emp.nome', 'emp.matricula', 'f.de_funcao', 's.de_situacao', 'emp.login', 'emp.filial', 'emp.cpf',
         	'emp.co_funcao', 'emp.dtnascimento', 'emp.dtadmissao', 'emp.dtdemissao', 's.id_situacao_sisfin AS id_situacao',
 					'emp.id_situacao', 'emp.jorn_ent', 'emp.jorn_sai', 'emp.mat_gestor', 'gestor.nome as nome_gestor', 'emp.mat_monitor', 
-          'emp.hr_descanso1', 'emp.hr_descanso2', 'emp.hr_lanche', 'emp.certificado_digital')
+          'emp.hr_descanso1', 'emp.hr_descanso2', 'emp.hr_lanche', 'emp.certificado_digital', 'emp.nu_telefone', 'emp.nu_telefone2')
         ->join('sc_bases.tb_funcao as f', 'emp.co_funcao', 'f.co_funcao')
         ->leftJoin('sc_bases.tb_empregados as gestor', 'emp.mat_gestor', '=', 'gestor.login')
         ->leftJoin('sc_bases.tb_info_deslig as ids', function($join) {
@@ -171,7 +171,6 @@ class Colaborador extends Model
             ->from('sc_bases.tb_funcao')
             ->where('de_funcao', 'like', "%COORD%")
             ->Orwhere('de_funcao', 'like', "%SUPERV%")
-            ->Orwhere('de_funcao', 'like', "%GERENTE%")
             ->Orwhere('de_funcao', 'like', "%CORRD%");
         })
         ->whereIn('emp.id_situacao', ['1','2']);
@@ -180,7 +179,7 @@ class Colaborador extends Model
           $list->whereIn('emp.filial', $contratos);
         }
 
-        $list = $list->get();
+        $list = $list->orderBy('nome')->get();
 
         return $list;
     }
