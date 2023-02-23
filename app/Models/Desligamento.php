@@ -34,6 +34,7 @@ class Desligamento extends Model
                 'mat_alteracao',
                 'mat_empregado',
                 'mat_registro',
+                'ic_certificado_digital'
             )
             ->join('sc_bases.tb_tp_desligamento as tp', 'd.id_tipo_desligamento', '=', 'tp.id_tipo_desligamento')
             ->join('sc_bases.tb_local_hom_deslig as lo', 'd.id_local_homologacao', '=', 'lo.id_local_homologacao')
