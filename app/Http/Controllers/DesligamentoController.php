@@ -54,7 +54,7 @@ class DesligamentoController extends Controller
             $desligamento->mat_registro = $request->matricula_alteracao;
             $desligamento->dt_registro = date('Y-m-d H:i', time());
             $desligamento->justificativa = $request->justificativa;
-            $desligamento->ic_certificado_digital = $request->iniCertDigital['value'];
+            $desligamento->ic_certificado_digital = isset($request->iniCertDigital['value']) ? $request->iniCertDigital['value'] : null;
             $desligamento->ic_ativo = 1;
             $desligamento->save();
     
