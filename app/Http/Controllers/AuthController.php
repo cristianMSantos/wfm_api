@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\View_Colaborador;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -44,11 +45,10 @@ class AuthController extends Controller
          */
 
         $senha =  md5($request->input('loginPassword'));
-
         if (is_null($request->input('loginPassword')) || is_null($request->input('loginMatricula'))) {
             return response()->json(['error' => 'Senha ou Login nao informados'], 404);
         }
-
+        
         if (!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -85,6 +85,30 @@ class AuthController extends Controller
 
         $user = new User();
         return $user->resetPassword($matricula, $senha);
+    }
+
+    /**
+     * Update User Login Password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function confirmPassword(Request $request)
+    {
+        $getMatricula = new View_Colaborador;
+        $getMatricula = $getMatricula->getAuthUser();
+        $matricula = $getMatricula[0]->matricula;
+
+        $senhaAtualSemHash = $request->input('loginPassword');
+        $senhaAtual = md5($request->input('loginPassword'));
+        
+        $user = new User();
+        return $user->comparePassword($matricula, $senhaAtual, $senhaAtualSemHash);
+
+        // $senhaAtualSemHash = $request->input('loginPassword');
+        // $senhaAtual = md5($request->input('loginPassword'));
+
+        // $user = new User();
+        // return $user->comparePassword($matricula);
     }
 
     /**
