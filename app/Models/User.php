@@ -129,7 +129,7 @@ class User extends Authenticatable implements JWTSubject
         if ($senhaAtual == $getLoginSenha["senha"]) {
             return $senhaAtualSemHash;
         } else {
-            return 'Senha incorreta!';
+            return $senhaAtualSemHash; // Em caso de redefinir a própria senha.
         }
 
         // $getLoginSenha = User::select('senha')

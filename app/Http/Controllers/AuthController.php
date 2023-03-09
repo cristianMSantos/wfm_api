@@ -92,6 +92,20 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function getOwnPassword(Request $request)
+    {
+        $senha = md5($request->input('novaSenha'));
+        $matricula = $request->input('loginMatricula');
+
+        $user = new User();
+        return $user->resetPassword($matricula, $senha);
+    }
+
+    /**
+     * Update User Login Password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirmPassword(Request $request)
     {
         $getMatricula = new View_Colaborador;
