@@ -94,11 +94,12 @@ class AuthController extends Controller
      */
     public function getOwnPassword(Request $request)
     {
+        $senhaAtualSemHash = $request->input('novaSenha');
         $senha = md5($request->input('novaSenha'));
         $matricula = $request->input('loginMatricula');
 
         $user = new User();
-        return $user->resetPassword($matricula, $senha);
+        return $user->resetOwnPassword($matricula, $senha, $senhaAtualSemHash);
     }
 
     /**
