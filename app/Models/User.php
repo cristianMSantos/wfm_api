@@ -120,7 +120,7 @@ class User extends Authenticatable implements JWTSubject
         ], 200);
     }
 
-    public function resetOwnPassword($matricula, $senha, $senhaAtualSemHash)
+    public function resetOwnPassword($matricula, $senha)
     {
         date_default_timezone_set('america/sao_paulo');
 
@@ -132,8 +132,6 @@ class User extends Authenticatable implements JWTSubject
                 'senha' => $senha,
                 'dt_alteracao' => date('Y-m-d H:i', time()),
             ]);
-
-            return $senhaAtualSemHash;
         }else {
             return response()->json([
                 "message" => "New password cannot be the same password default"
@@ -151,10 +149,14 @@ class User extends Authenticatable implements JWTSubject
                              ->where('matricula', $matricula)
                              ->first();
         
+        $senhaComHashSha = hash('sha256', $senhaAtualSemHash);
+
         if ($senhaAtual == $getLoginSenha["senha"]) {
-            return $senhaAtualSemHash;
+            return $senhaComHashSha;
+            // return $senhaAtualSemHash;
         } else {
-            return $senhaAtualSemHash; // Em caso de redefinir a própria senha.
+            return $senhaComHashSha; // Em caso de redefinir a própria senha.
+            // return $senhaAtualSemHash;
         }
 
         // $getLoginSenha = User::select('senha')

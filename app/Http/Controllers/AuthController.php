@@ -88,18 +88,17 @@ class AuthController extends Controller
     }
 
     /**
-     * Update User Login Password.
+     * Update Own User Login Password.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getOwnPassword(Request $request)
     {
-        $senhaAtualSemHash = $request->input('novaSenha');
         $senha = md5($request->input('novaSenha'));
         $matricula = $request->input('loginMatricula');
 
         $user = new User();
-        return $user->resetOwnPassword($matricula, $senha, $senhaAtualSemHash);
+        return $user->resetOwnPassword($matricula, $senha);
     }
 
     /**
