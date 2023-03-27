@@ -149,20 +149,12 @@ class User extends Authenticatable implements JWTSubject
                              ->where('matricula', $matricula)
                              ->first();
         
-        $senhaComHashSha = hash('sha256', $senhaAtualSemHash);
+        $senhaBaseEncoded = base64_encode($senhaAtualSemHash);
 
         if ($senhaAtual == $getLoginSenha["senha"]) {
-            return $senhaComHashSha;
-            // return $senhaAtualSemHash;
+            return $senhaBaseEncoded;
         } else {
-            return $senhaComHashSha; // Em caso de redefinir a própria senha.
-            // return $senhaAtualSemHash;
+            return $senhaBaseEncoded; // Em caso de redefinir a própria senha.
         }
-
-        // $getLoginSenha = User::select('senha')
-        //                      ->where('matricula', $matricula)
-        //                      ->first();
-                             
-        // return Crypt::decrypt($getLoginSenha["senha"]);
     }
 }
