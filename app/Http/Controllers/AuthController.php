@@ -80,10 +80,11 @@ class AuthController extends Controller
      */
     public function reset(Request $request)
     {
+        $user = new User();
+
         $senha =  md5($request->input('loginPassword'));
         $matricula = $request->input('loginMatricula');
 
-        $user = new User();
         return $user->resetPassword($matricula, $senha);
     }
 
@@ -94,11 +95,12 @@ class AuthController extends Controller
      */
     public function getOwnPassword(Request $request)
     {
+        $user = new User();
+
         $senha = md5($request->input('novaSenha'));
         $matricula = $request->input('loginMatricula');
 
-        $user = new User();
-        return $user->resetOwnPassword($matricula, $senha);
+        return $user->resetPassword($matricula, $senha);
     }
 
     /**
@@ -109,20 +111,15 @@ class AuthController extends Controller
     public function confirmPassword(Request $request)
     {
         $getMatricula = new View_Colaborador;
+        $user = new User();
+
         $getMatricula = $getMatricula->getAuthUser();
         $matricula = $getMatricula[0]->matricula;
 
         $senhaAtualSemHash = $request->input('loginPassword');
         $senhaAtual = md5($request->input('loginPassword'));
         
-        $user = new User();
         return $user->comparePassword($matricula, $senhaAtual, $senhaAtualSemHash);
-
-        // $senhaAtualSemHash = $request->input('loginPassword');
-        // $senhaAtual = md5($request->input('loginPassword'));
-
-        // $user = new User();
-        // return $user->comparePassword($matricula);
     }
 
     /**
