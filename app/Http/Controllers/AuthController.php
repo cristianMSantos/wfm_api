@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\View_Colaborador;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -44,11 +45,10 @@ class AuthController extends Controller
          */
 
         $senha =  md5($request->input('loginPassword'));
-
         if (is_null($request->input('loginPassword')) || is_null($request->input('loginMatricula'))) {
             return response()->json(['error' => 'Senha ou Login nao informados'], 404);
         }
-
+        
         if (!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -80,11 +80,46 @@ class AuthController extends Controller
      */
     public function reset(Request $request)
     {
+        $user = new User();
+
         $senha =  md5($request->input('loginPassword'));
         $matricula = $request->input('loginMatricula');
 
-        $user = new User();
         return $user->resetPassword($matricula, $senha);
+    }
+
+    /**
+     * Update Own User Login Password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getOwnPassword(Request $request)
+    {
+        $user = new User();
+
+        $senha = md5($request->input('novaSenha'));
+        $matricula = $request->input('loginMatricula');
+
+        return $user->resetPassword($matricula, $senha);
+    }
+
+    /**
+     * Update User Login Password.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function confirmPassword(Request $request)
+    {
+        $getMatricula = new View_Colaborador;
+        $user = new User();
+
+        $getMatricula = $getMatricula->getAuthUser();
+        $matricula = $getMatricula[0]->matricula;
+
+        $senhaAtualSemHash = $request->input('loginPassword');
+        $senhaAtual = md5($request->input('loginPassword'));
+        
+        return $user->comparePassword($matricula, $senhaAtual, $senhaAtualSemHash);
     }
 
     /**

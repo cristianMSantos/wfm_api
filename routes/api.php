@@ -30,6 +30,8 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('me', 'AuthController@me');
     Route::post('reset', 'AuthController@reset');
+    Route::post('resetOwnPassword', 'AuthController@getOwnPassword');
+    Route::post('confirmPassword', 'AuthController@confirmPassword');
     Route::post('refresh', 'AuthController@refresh');
 
     //  Route::get('colaborador',[ColaboradorController::class,'buscar']);

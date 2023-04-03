@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\models\View_Colaborador;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -106,7 +109,8 @@ class User extends Authenticatable implements JWTSubject
                 'senha' => $senha,
                 'dt_alteracao' => date('Y-m-d H:i', time()),
             ]);
-        }else {
+        } else {
+            
             return response()->json([
                 "message" => "New password cannot be the same password default"
             ], 409);
@@ -115,5 +119,20 @@ class User extends Authenticatable implements JWTSubject
         return response()->json([
             "massege" => "update successfully"
         ], 200);
+    }
+
+    public function comparePassword($matricula, $senhaAtual, $senhaAtualSemHash)
+    {
+        $getLoginSenha = User::select('senha')
+                             ->where('matricula', $matricula)
+                             ->first();
+        
+        $senhaBaseEncoded = base64_encode($senhaAtualSemHash);
+
+        if ($senhaAtual == $getLoginSenha["senha"]) {
+            return $senhaBaseEncoded;
+        } else {
+            return $senhaBaseEncoded; // Em caso de redefinir a própria senha.
+        }
     }
 }
