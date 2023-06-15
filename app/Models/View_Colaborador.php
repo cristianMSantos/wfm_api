@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class View_Colaborador extends Model
 {
+    protected $connection = 'pgsql2';
     public $timestamps = false;
     protected $table = 'sc_bases.vw_funcionario';
     protected $primaryKey = 'matricula';

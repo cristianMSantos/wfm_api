@@ -26,7 +26,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'reset']]);
+        $this->middleware('auth:api', ['except' => ['login', 'reset', 'checkMatricula']]);
     }
     /**
      * Get a JWT via given credentials.
@@ -70,6 +70,20 @@ class AuthController extends Controller
     public function me()
     {
         $user = auth('api')->user()->getUser();
+        return response()->json($user);
+    }
+
+    /**
+     * Get if User exists.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function checkMatricula(Request $request)
+    {
+        $user = new View_Colaborador;
+
+        $user = $user::where('login', $request->loginMatricula)->exists();
+
         return response()->json($user);
     }
 
