@@ -32,7 +32,10 @@ Route::group([
     Route::post('reset', 'AuthController@reset');
     Route::post('refresh', 'AuthController@refresh');
 
+
+    // Route::post('fillMenu', 'AuthController@fillMenu');
     //  Route::get('colaborador',[ColaboradorController::class,'buscar']);
+    // Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
 });
 
 // Grupo de rotas Administração
@@ -116,6 +119,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'ocorrencia'], function () {
 // Grupo de rotas sisfin
 Route::group(['middleware' => 'api', 'prefix' => 'sisfin'], function () {
     Route::get('/{id}', 'SisfinController@search');
+});
+
+// Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
+Route::group(['middleware' => 'api', 'prefix' => 'sidebar'], function () {
+    Route::post('/fillMenu', 'SidebarController@fillMenu');
 });
 
 
