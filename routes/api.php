@@ -35,11 +35,16 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
 
 
-    Route::post('checkMatricula', 'AuthController@checkMatricula');
-
+    // Route::post('fillMenu', 'AuthController@fillMenu');
     //  Route::get('colaborador',[ColaboradorController::class,'buscar']);
+    // Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
 });
 
+
+// Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
+Route::group(['middleware' => 'api', 'prefix' => 'sidebar'], function () {
+    Route::post('/fillMenu', 'SidebarController@fillMenu');
+});
 
 
 #######
