@@ -33,7 +33,7 @@ class SidebarController extends Controller
                     [
                         'id' => 'recrutamento-teste',
                         'icon' => 'StarBorder',
-                        'text' => 'SubRecrutamento',
+                        'text' => 'SubRecrutamento', 
                         'route' => '/recrutamento/subRecrutamento',
                     ],
                     [
@@ -61,7 +61,7 @@ class SidebarController extends Controller
                 'section' => 'Departamentos',
             ],
         ];
-        
+
         return response()->json($menuItems);
     }
 
