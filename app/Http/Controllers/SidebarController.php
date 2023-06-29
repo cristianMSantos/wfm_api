@@ -30,7 +30,7 @@ class SidebarController extends Controller
                 'text' => 'Recrutamento',
                 'hasSubItems' => true,
                 'subItems' => [
-                    [
+                    [ 
                         'id' => 'recrutamento-teste',
                         'icon' => 'StarBorder',
                         'text' => 'SubRecrutamento', 
