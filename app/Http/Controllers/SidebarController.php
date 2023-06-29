@@ -33,8 +33,14 @@ class SidebarController extends Controller
                     [
                         'id' => 'recrutamento-teste',
                         'icon' => 'StarBorder',
-                        'text' => 'Starred',
-                        'route' => '/user',
+                        'text' => 'SubRecrutamento',
+                        'route' => '/recrutamento/subRecrutamento',
+                    ],
+                    [
+                        'id' => 'recrutamento-teste2',
+                        'icon' => 'StarBorder',
+                        'text' => 'SubRecrutamento2',
+                        'route' => '/recrutamento/subRecrutamento2',
                     ],
                 ],
                 'section' => 'Departamentos',
@@ -48,11 +54,11 @@ class SidebarController extends Controller
                     [
                         'id' => 'trafego-teste',
                         'icon' => 'StarBorder',
-                        'text' => 'Starred',
-                        'route' => '/teste',
+                        'text' => 'SubTrafego',
+                        'route' => '/trafego/subTrafego',
                     ],
                 ],
-                'section' => 'Teste',
+                'section' => 'Departamentos',
             ],
         ];
         return response()->json($menuItems);
