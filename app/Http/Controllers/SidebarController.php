@@ -60,18 +60,20 @@ class SidebarController extends Controller
                 ],
                 'section' => 'Departamentos',
             ],
+            [
+                'id' => 'acessos',
+                'icon' => 'LockPersonOutlined',
+                'text' => 'Acessos',
+                'hasSubItems' => false,
+                'route' => '/acessos',
+                'section' => 'Administração',
+            ],
         ];
 
         return response()->json($menuItems);
     }
 
-
-
- 
-
- 
-   
-
-    
-
+    public function create(Request $request){
+        return $request;
+    }
 }

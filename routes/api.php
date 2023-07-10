@@ -124,6 +124,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'sisfin'], function () {
 // Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
 Route::group(['middleware' => 'api', 'prefix' => 'sidebar'], function () {
     Route::post('/fillMenu', 'SidebarController@fillMenu');
+    Route::post('/createMenu', 'SidebarController@create');
 });
 
 
