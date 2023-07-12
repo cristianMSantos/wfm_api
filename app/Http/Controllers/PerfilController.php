@@ -12,20 +12,10 @@ class PerfilController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login']]);
     }
-    public function listar()
+    public function listPerfis()
     {
         $call = new Perfil();
-        $list = $call->listarPerfil();
-        return json_encode($list);
-    }
-    public function buscar(Request $request)
-    {
-        
-        $co_perfil = $request->co_perfil;
-       
-        $call = new Perfil();
-        $list = $call->buscarPerfil($co_perfil);
-        
+        $list = $call->listPerfis();
         return json_encode($list);
     }
 

@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\View_Funcionarios;
 use Illuminate\Http\Request;
-use App\Models\Filial ;
 
-class FilialController extends Controller
+class ViewController extends Controller
 {
 
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login']]);
     }
-
-    public function listar()
+    public function listFuncionarios(Request $request)
     {
-        $call = new Filial();
-        $list = $call->listarFilial();
+        $call = new View_Funcionarios();
+        $list = $call->listFuncionarios($request->search);
         return json_encode($list);
     }
+
 }

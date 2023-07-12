@@ -8,13 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Perfil extends Model
 {
     public $timestamps = false;
-    protected $table = 'gente.Perfil';
+    protected $table = 'public.tb_perfis';
     protected $primaryKey = 'co_perfil';
 
-    public function listarPerfil(){
+    public function listPerfis(){
         return Perfil::get();
-    }
-    public function buscarPerfil($co_perfil){
-        return Perfil::where('co_perfil','=', $co_perfil)->get();
     }
 }
