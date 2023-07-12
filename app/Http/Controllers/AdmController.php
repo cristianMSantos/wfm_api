@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Acessos;
-use App\Models\View_Colaborador;
+use App\Models\View_Funcionarios;
 use DB;
 
 class AdmController extends Controller
@@ -47,15 +47,15 @@ class AdmController extends Controller
     {
         date_default_timezone_set('america/sao_paulo');
 
-        $user = new View_Colaborador;
-        $user = $user->getAuthUser();
+        $auth = new View_Funcionarios;
+        $auth = $auth->getAuthUser(); //Trás a matrícula do usuário local; 
+        $login = $auth[0]->matricula_pl;
 
-        $login = $user[0]->matricula;
-        foreach ($request->usersTableList as $users) {
+        foreach ($request->colaborador as $users) {
             $newAcessos = new Acessos();
-            $newAcessos->matricula = $users['matricula'];
+            $newAcessos->matricula = $users['matricula_pl'];
             $newAcessos->senha = '1ae765da44b163c8d6cb8051bc35192b'; // senha padrão plansul123 criptografada.                                
-            $newAcessos->co_perfil = $request->perfilSelected;
+            $newAcessos->co_perfil = $request->perfil['co_perfil'];
             $newAcessos->dt_criacao = date('Y-m-d H:i', time());
             $newAcessos->mat_criacao = $login;
             $newAcessos->ic_ativo = 1;

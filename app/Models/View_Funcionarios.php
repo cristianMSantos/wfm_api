@@ -13,4 +13,13 @@ class View_Funcionarios extends Model
     public function listFuncionarios($colaborador){
         return View_Funcionarios::where('no_operador', 'LIKE', '%'.$colaborador.'%')->where('id_situacao', 1)->orderBy('no_operador', 'asc')->get()->toArray();
     }
+
+    public function getAuthUser(){
+        $login = Auth::user()->matricula;
+
+        $user = View_Funcionarios::where('matricula_pl', $login)->get();
+
+        return $user;
+    }
+
 }

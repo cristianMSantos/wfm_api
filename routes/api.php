@@ -48,10 +48,10 @@ Route::group([
         Route::get('/listPerfis','PerfilController@listPerfis');
         Route::post('/listFuncionarios','ViewController@listFuncionarios');
         Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
-        Route::post('/usuario/create','AdmController@store');
-        Route::put('/usuario/update','AdmController@update');
-        Route::put('/usuario/updatePassword','AdmController@updatePassword');
-        Route::delete('/usuario/delete','AdmController@destroy');
+        Route::post('/access/create','AdmController@store');
+        Route::put('/access/update','AdmController@update');
+        Route::put('/access/updatePassword','AdmController@updatePassword');
+        Route::delete('/access/delete','AdmController@destroy');
 });
 
 
