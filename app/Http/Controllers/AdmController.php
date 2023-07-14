@@ -111,6 +111,8 @@ class AdmController extends Controller
      */
     public function update(Request $request)
     {
+        return $request;
+
         date_default_timezone_set('america/sao_paulo'); //Ajusta a hora do dt_alteracao.
         $user = new View_Colaborador;
         $user = $user->getAuthUser(); //Trás a matrícula do usuário local; 

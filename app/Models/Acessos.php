@@ -17,10 +17,9 @@ class Acessos extends Model
     {
         // au = acesso usuario;
         return Acessos::from('public.tb_usuario as au')->select(
-                                'au.co_usuario',
+                                'au.co_usuario as id',
                                 'au.matricula',
-                                'vwf.nome',
-                                'au.senha',
+                                'vwf.no_operador',
                                 'au.co_perfil',
                                 'au.dt_criacao',
                                 'au.mat_criacao',
@@ -29,7 +28,7 @@ class Acessos extends Model
                                 'au.ic_ativo',
                                 'perfil.no_perfil')
                                 ->join('public.tb_perfis as perfil', 'au.co_perfil', '=', 'perfil.co_perfil')
-                                ->leftJoin('sc_bases.vw_funcionario as vwf', 'au.matricula', '=', 'vwf.matricula')
+                                ->leftJoin('public.vw_funcionario as vwf', 'au.matricula', '=', 'vwf.matricula_pl')
                                 ->get();
     }
 }
