@@ -18,6 +18,7 @@ class SidebarController extends Controller
         $menuItems = [
             [
                 'id' => 'dashboard',
+                'perfil' => null,
                 'icon' => 'DashboardOutlined',
                 'text' => 'Dashboard',
                 'hasSubItems' => false,
@@ -26,6 +27,7 @@ class SidebarController extends Controller
             ],
             [
                 'id' => 'recrutamento',
+                'perfil' => [1,2],
                 'icon' => 'AssignmentIndOutlined',
                 'text' => 'Recrutamento',
                 'hasSubItems' => true,
@@ -47,6 +49,7 @@ class SidebarController extends Controller
             ],
             [
                 'id' => 'trafego',
+                'perfil' => [1,3],
                 'icon' => 'DataThresholdingOutlined',
                 'text' => 'Tráfego',
                 'hasSubItems' => true,
@@ -62,6 +65,7 @@ class SidebarController extends Controller
             ],
             [
                 'id' => 'acessos',
+                'perfil' => [1],
                 'icon' => 'LockPersonOutlined',
                 'text' => 'Acessos',
                 'hasSubItems' => false,

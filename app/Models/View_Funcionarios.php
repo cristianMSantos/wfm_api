@@ -3,6 +3,7 @@
 namespace App\models;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class View_Funcionarios extends Model
 {
@@ -11,7 +12,16 @@ class View_Funcionarios extends Model
     protected $primaryKey = 'matricula_pl';
     
     public function listFuncionarios($colaborador){
-        return View_Funcionarios::where('no_operador', 'LIKE', '%'.$colaborador.'%')->where('id_situacao', 1)->orderBy('no_operador', 'asc')->get()->toArray();
+        return View_Funcionarios::select('matricula_pl', 'no_operador', DB::raw("(
+            CASE
+              WHEN EXISTS (
+                SELECT 1 FROM tb_usuario WHERE matricula = matricula_pl
+              )
+              THEN TRUE 
+              ELSE FALSE
+            END
+          ) AS has_access"))
+        ->where('no_operador', 'LIKE', '%'.$colaborador.'%')->where('id_situacao', 1)->orderBy('no_operador', 'asc')->get()->toArray();
     }
 
     public function getAuthUser(){

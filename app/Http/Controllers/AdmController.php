@@ -111,22 +111,23 @@ class AdmController extends Controller
      */
     public function update(Request $request)
     {
-        return $request;
+        // return $request->co_perfil;
 
         date_default_timezone_set('america/sao_paulo'); //Ajusta a hora do dt_alteracao.
-        $user = new View_Colaborador;
+        $user = new View_Funcionarios;
         $user = $user->getAuthUser(); //Trás a matrícula do usuário local; 
         $login = $user[0]->matricula;
 
-        $co_usuario = $request->usersTableList[0]['co_usuario'];
-        if (Acessos::where('co_usuario', $co_usuario)->exists()) {
-            $userAcesso = Acessos::find($co_usuario); 
+        $co_usuario = $request->matricula;
+        if (Acessos::where('matricula', $co_usuario)->exists()) {
+            $userAcesso = new Acessos();
+            $userAcesso = Acessos::where('matricula', $co_usuario)
+            ->update([
+                'co_perfil' => $request->co_perfil,
+                'dt_alteracao' => date('Y-m-d H:i', time()),
+                'mat_alteracao' => $login,
+            ]);
 
-            $userAcesso->co_perfil = $request->perfilSelected;
-            $userAcesso->dt_alteracao = date('Y-m-d H:i', time());
-            $userAcesso->mat_alteracao = $login;
-            $userAcesso->save();
-    
             return response()->json([
                 "massege" => "updated successfully"
             ], 200);
@@ -176,9 +177,20 @@ class AdmController extends Controller
      */
     public function destroy(Request $request)
     {
-        $remove = new Acessos();
-        $remove = $remove->whereIn('matricula', $request->acesso)->delete();
+        // return $request;
+        $co_matricula = $request->matricula;
 
-        return $remove;
+        if(Acessos::where('matricula', $co_matricula)->exists()){
+            $acessos = Acessos::where('matricula', $co_matricula)->first();
+            $acessos->delete();
+
+            return response()->json([
+                "messege" =>"acesso deletado"
+            ], 202);
+        }else{
+            return response()->json([
+                "messege" =>"acesso nao encontrado"
+            ], 404);
+        }
     }
 }

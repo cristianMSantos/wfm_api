@@ -50,8 +50,8 @@ Route::group([
         Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
         Route::post('/access/create','AdmController@store');
         Route::put('/access/update','AdmController@update');
-        Route::put('/access/updatePassword','AdmController@updatePassword');
         Route::delete('/access/delete','AdmController@destroy');
+        Route::put('/access/updatePassword','AdmController@updatePassword');
 });
 
 
