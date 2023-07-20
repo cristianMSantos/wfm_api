@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Acessos;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -52,12 +53,12 @@ class AuthController extends Controller
         if (!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        // // Verifica quando o usuário for incluir senha padrão para resetar a senha:
-        // if ($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
-        //     if ($request->input('loginPassword') == 'plansul123') {
-        //         return response()->json(['error' => 'Reset Password'], 403);
-        //     }
-        // }
+        // Verifica quando o usuário for incluir senha padrão para resetar a senha:
+        if ($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
+            if ($request->input('loginPassword') == 'plansul123') {
+                return response()->json(['error' => 'Reset Password'], 403);
+            }
+        }
 
         return $this->respondWithToken($token);
     }
@@ -83,8 +84,8 @@ class AuthController extends Controller
         $senha =  md5($request->input('loginPassword'));
         $matricula = $request->input('loginMatricula');
 
-        $user = new User();
-        return $user->resetPassword($matricula, $senha);
+        $acessos = new Acessos();
+        return $acessos->resetPassword($matricula, $senha);
     }
 
     /**
