@@ -52,12 +52,12 @@ class AuthController extends Controller
         if (!$token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        // Verifica quando o usuário for incluir senha padrão para resetar a senha:
-        if ($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
-            if ($request->input('loginPassword') == 'plansul123') {
-                return response()->json(['error' => 'Reset Password'], 403);
-            }
-        }
+        // // Verifica quando o usuário for incluir senha padrão para resetar a senha:
+        // if ($token = Auth::attempt(['matricula' => $request->input('loginMatricula'),'password' => $senha, 'ic_ativo' => 1])) {
+        //     if ($request->input('loginPassword') == 'plansul123') {
+        //         return response()->json(['error' => 'Reset Password'], 403);
+        //     }
+        // }
 
         return $this->respondWithToken($token);
     }

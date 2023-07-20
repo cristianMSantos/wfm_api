@@ -18,6 +18,7 @@ class SidebarController extends Controller
         $menuItems = [
             [
                 'id' => 'dashboard',
+                'perfil' => null,
                 'icon' => 'DashboardOutlined',
                 'text' => 'Dashboard',
                 'hasSubItems' => false,
@@ -26,14 +27,15 @@ class SidebarController extends Controller
             ],
             [
                 'id' => 'recrutamento',
+                'perfil' => [1,2],
                 'icon' => 'AssignmentIndOutlined',
                 'text' => 'Recrutamento',
                 'hasSubItems' => true,
                 'subItems' => [
-                    [
+                    [ 
                         'id' => 'recrutamento-teste',
                         'icon' => 'StarBorder',
-                        'text' => 'SubRecrutamento',
+                        'text' => 'SubRecrutamento', 
                         'route' => '/recrutamento/subRecrutamento',
                     ],
                     [
@@ -47,6 +49,7 @@ class SidebarController extends Controller
             ],
             [
                 'id' => 'trafego',
+                'perfil' => [1,3],
                 'icon' => 'DataThresholdingOutlined',
                 'text' => 'Tráfego',
                 'hasSubItems' => true,
@@ -60,17 +63,21 @@ class SidebarController extends Controller
                 ],
                 'section' => 'Departamentos',
             ],
+            [
+                'id' => 'acessos',
+                'perfil' => [1],
+                'icon' => 'LockPersonOutlined',
+                'text' => 'Acessos',
+                'hasSubItems' => false,
+                'route' => '/acessos',
+                'section' => 'Administração',
+            ],
         ];
+
         return response()->json($menuItems);
     }
 
-
-
- 
-
- 
-   
-
-    
-
+    public function create(Request $request){
+        return $request;
+    }
 }

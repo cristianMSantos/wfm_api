@@ -40,10 +40,27 @@ Route::group([
     // Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
 });
 
+// Grupo de rotas Administração
+Route::group([
+    'middleware' => 'api',
+    'middleware' => 'adm',
+    'prefix' => 'adm'
+    ], function () {
+        Route::get('/listAccess','AdmController@listAccess');
+        Route::get('/listPerfis','PerfilController@listPerfis');
+        Route::post('/listFuncionarios','ViewController@listFuncionarios');
+        Route::get('/listAccess/{id}','AdmController@show'); //Trás uma ou mais matriculas.
+        Route::post('/access/create','AdmController@store');
+        Route::put('/access/update','AdmController@update');
+        Route::delete('/access/delete','AdmController@destroy');
+        Route::put('/access/updatePassword','AdmController@updatePassword');
+});
+
 
 // Route::post('/fillMenu', [SidebarController::class, 'fillMenu']);
 Route::group(['middleware' => 'api', 'prefix' => 'sidebar'], function () {
     Route::post('/fillMenu', 'SidebarController@fillMenu');
+    Route::post('/createMenu', 'SidebarController@create');
 });
 
 
