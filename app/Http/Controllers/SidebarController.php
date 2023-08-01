@@ -72,6 +72,22 @@ class SidebarController extends Controller
                 'route' => '/acessos',
                 'section' => 'Administração',
             ],
+            [
+                'id' => 'dap',
+                'perfil' => [1,4],
+                'icon' => 'FolderSharedOutlined',
+                'text' => 'DAP',
+                'hasSubItems' => true,
+                'subItems' => [
+                    [
+                        'id' => 'relatorios',
+                        'icon' => 'DescriptionOutlined',
+                        'text' => 'Relatórios',
+                        'route' => '/dap/relatorios',
+                    ],
+                ],
+                'section' => 'Departamentos',
+            ],
         ];
 
         return response()->json($menuItems);

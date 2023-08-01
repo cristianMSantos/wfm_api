@@ -78,30 +78,41 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        // 'sqlsrv' => [
+        //     'driver' => 'sqlsrv',
+        //     'url' => env('DATABASE_URL'),
+        //     'host' => env('DB_HOST', 'localhost'),
+        //     'port' => env('DB_PORT', '1433'),
+        //     'database' => env('DB_DATABASE', 'forge'),
+        //     'username' => env('DB_USERNAME', 'forge'),
+        //     'password' => env('DB_PASSWORD', ''),
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'prefix_indexes' => true,
+        // ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-            'prefix_indexes' => true,
-        ],
-
-        'pgsql2' => [
-            'driver' => 'pgsql',
-            'host' => env('DB_HOST_SECOND', '172.10.20.47'),
-            'port' => env('DB_PORT_SECOND', '5432'),
+            'host' => env('DB_HOST_SECOND', '127.0.0.1'),
             'database' => env('DB_DATABASE_SECOND', 'forge'),
             'username' => env('DB_USERNAME_SECOND', 'forge'),
             'password' => env('DB_PASSWORD_SECOND', ''),
             'charset' => 'utf8',
             'prefix' => '',
-            'prefix_indexes' => true,
+            'prefix_indexes' => true
         ],
+
+        // 'pgsql2' => [
+        //     'driver' => 'pgsql',
+        //     'host' => env('DB_HOST_SECOND', '172.10.20.47'),
+        //     'port' => env('DB_PORT_SECOND', '5432'),
+        //     'database' => env('DB_DATABASE_SECOND', 'forge'),
+        //     'username' => env('DB_USERNAME_SECOND', 'forge'),
+        //     'password' => env('DB_PASSWORD_SECOND', ''),
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'prefix_indexes' => true,
+        // ],
 
     ],
 

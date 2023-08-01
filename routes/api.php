@@ -61,5 +61,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'sidebar'], function () {
     Route::post('/createMenu', 'SidebarController@create');
 });
 
+// Grupo de rotas DAP
+Route::group(['middleware' => 'api', 'prefix' => 'relatoriosDap'], function () {
+    Route::post('/getRelatoriosDap','RelatoriosDapController@list');
+});
+
 
 #######
