@@ -85,6 +85,11 @@ class SidebarController extends Controller
                         'text' => 'Relatórios',
                         'route' => '/dap/relatorios',
                     ],
+                    ['id'=>"ocorrencias",
+                'icon'=>'CoPresentOutlined',
+                'text'=>'Ocorrências',
+                'route'=> '/dap/ocorrencias'
+            ],
                 ],
                 'section' => 'Departamentos',
             ],
